@@ -8,8 +8,6 @@ import {
   Connection,
   PublicKey,
   TransactionInstruction,
-  TransactionMessage,
-  VersionedTransaction,
 } from '@solana/web3.js';
 import { AuctionHouse } from 'src/types';
 import {
@@ -25,7 +23,7 @@ import {
   createCreateListingInstruction,
 } from '@motleylabs/mtly-reward-center';
 
-export const getCreateListingTx = async ({
+export const getCreateListingIxs = async ({
   connection,
   auctionHouse,
   mint,
@@ -39,7 +37,7 @@ export const getCreateListingTx = async ({
   amount: number;
   seller: PublicKey;
   isPNFT: boolean;
-}): Promise<VersionedTransaction> => {
+}): Promise<TransactionInstruction[]> => {
   const auctionHouseAddress = new PublicKey(auctionHouse.address);
   const buyerPrice = toLamports(amount);
   const authority = new PublicKey(auctionHouse.authority);
@@ -171,12 +169,5 @@ export const getCreateListingTx = async ({
   });
   ixs.push(cupIx);
 
-  const { blockhash } = await connection.getLatestBlockhash();
-  const messageV0 = new TransactionMessage({
-    payerKey: seller,
-    recentBlockhash: blockhash,
-    instructions: ixs,
-  }).compileToV0Message();
-
-  return new VersionedTransaction(messageV0);
+  return ixs;
 };
