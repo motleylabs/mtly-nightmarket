@@ -1,6 +1,10 @@
 import { Connection, PublicKey, TransactionInstruction } from '@solana/web3.js';
 import { Config, defaultConfig } from 'src/types';
-import { getCreateListingIxs, getUpdateListingIxs } from './lib';
+import {
+  getCloseListingIxs,
+  getCreateListingIxs,
+  getUpdateListingIxs,
+} from './lib';
 
 export class NightmarketClient {
   public config: Config;
@@ -53,6 +57,27 @@ export class NightmarketClient {
       mint,
       amount,
       seller,
+    });
+  }
+
+  /**
+   * Closes a listing for NFT
+   * @param mint - A public key for the listed NFT
+   * @param seller - A public key for the NFT owner
+   * @param isPNFT - A boolean param that shows whether the NFT is programmable or not
+   * @returns {TransactionInstruction[]} - Transaction instructions
+   */
+  public async CloseListing(
+    mint: PublicKey,
+    seller: PublicKey,
+    isPNFT = true,
+  ): Promise<TransactionInstruction[]> {
+    return getCloseListingIxs({
+      connection: this.config.connection,
+      auctionHouse: this.config.auctionHouse,
+      mint,
+      seller,
+      isPNFT,
     });
   }
 }
