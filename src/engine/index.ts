@@ -18,7 +18,7 @@ export class NightmarketClient {
    * @param amount - A SOL price of listing
    * @param seller - A public key for the NFT owner
    * @param isPNFT - A boolean param that shows whether the NFT is programmable or not
-   * @returns {{ tx: Buffer }} - A buffer data for transaction
+   * @returns {VersionedTransaction} - A versioned transaction
    */
   public async CreateListing(
     mint: PublicKey,
