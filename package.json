@@ -2,11 +2,15 @@
   "name": "@motleylabs/mtly-nightmarket",
   "version": "1.0.0",
   "description": "Night Market Typescript API",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "Apache-2.0",
   "keywords": [
     "motleylabs",
     "nightmarket"
+  ],
+  "files": [
+    "/dist"
   ],
   "scripts": {
     "build": "tsc"
