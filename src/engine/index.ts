@@ -1,6 +1,6 @@
-import { Connection, PublicKey, VersionedTransaction } from '@solana/web3.js';
+import { Connection, PublicKey, TransactionInstruction } from '@solana/web3.js';
 import { Config, defaultConfig } from 'src/types';
-import { getCreateListingTx } from './lib';
+import { getCreateListingIxs, getUpdateListingIxs } from './lib';
 
 export class NightmarketClient {
   public config: Config;
@@ -18,21 +18,41 @@ export class NightmarketClient {
    * @param amount - A SOL price of listing
    * @param seller - A public key for the NFT owner
    * @param isPNFT - A boolean param that shows whether the NFT is programmable or not
-   * @returns {VersionedTransaction} - A versioned transaction
+   * @returns {TransactionInstruction[]} - Transaction instructions
    */
   public async CreateListing(
     mint: PublicKey,
     amount: number,
     seller: PublicKey,
     isPNFT = true,
-  ): Promise<VersionedTransaction> {
-    return await getCreateListingTx({
+  ): Promise<TransactionInstruction[]> {
+    return await getCreateListingIxs({
       connection: this.config.connection,
       auctionHouse: this.config.auctionHouse,
       mint,
       amount,
       seller,
       isPNFT,
+    });
+  }
+
+  /**
+   * Updates a listing for NFT
+   * @param mint - A public key for the listed NFT
+   * @param amount - A SOL price of listing
+   * @param seller - A public key for the NFT owner
+   * @returns {TransactionInstruction[]} - Transaction instructions
+   */
+  public async UpdateListing(
+    mint: PublicKey,
+    amount: number,
+    seller: PublicKey,
+  ): Promise<TransactionInstruction[]> {
+    return getUpdateListingIxs({
+      auctionHouse: this.config.auctionHouse,
+      mint,
+      amount,
+      seller,
     });
   }
 }
