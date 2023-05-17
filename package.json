@@ -1,0 +1,29 @@
+{
+  "name": "@motleylabs/mtly-nightmarket",
+  "version": "1.0.0",
+  "description": "Night Market Typescript API",
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "keywords": [
+    "motleylabs",
+    "nightmarket"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": "https://github.com/motleylabs/mtly-nightmarket.git",
+  "author": "Motley Labs Developers",
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@motleylabs/mtly-auction-house": "^2.5.6",
+    "@motleylabs/mtly-reward-center": "^0.2.8",
+    "@project-serum/anchor": "^0.26.0",
+    "@solana/web3.js": "^1.76.0"
+  }
+}
