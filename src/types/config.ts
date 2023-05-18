@@ -4,6 +4,7 @@ import { AuctionHouse } from './auctionHouse';
 export type Config = {
   auctionHouse: AuctionHouse;
   connection: Connection;
+  addressLookupTable: PublicKey;
 };
 
 export const defaultConfig: Config = {
@@ -23,4 +24,7 @@ export const defaultConfig: Config = {
     treasuryMint: 'So11111111111111111111111111111111111111112',
   },
   connection: new Connection('https://api.mainnet-beta.solana.com'),
+  addressLookupTable: new PublicKey(
+    'HQma5N1kPpYiQBMUx4CqDSuUyjCzNHhvRtRz1qTBNtNp',
+  ),
 };

@@ -7,6 +7,7 @@ import {
 } from './lib';
 import { getCreateOfferIxs } from './lib/createOffer';
 import { getCloseOfferIxs } from './lib/closeOffer';
+import { getAcceptOfferIxs } from './lib/acceptOffer';
 
 export class NightmarketClient {
   public config: Config;
@@ -23,7 +24,7 @@ export class NightmarketClient {
    * @param mint - A public key for the listed NFT
    * @param amount - A SOL price of listing
    * @param seller - A public key for the NFT owner
-   * @returns {TxRes} - Transaction instructions
+   * @returns {TxRes} - Response
    */
   public async CreateListing(
     mint: PublicKey,
@@ -55,7 +56,7 @@ export class NightmarketClient {
    * @param mint - A public key for the listed NFT
    * @param amount - A SOL price of listing
    * @param seller - A public key for the NFT owner
-   * @returns {TxRes} - Transaction instructions
+   * @returns {TxRes} - Response
    */
   public async UpdateListing(
     mint: PublicKey,
@@ -85,7 +86,7 @@ export class NightmarketClient {
    * Closes a listing for NFT
    * @param mint - A public key for the listed NFT
    * @param seller - A public key for the NFT owner
-   * @returns {TxRes} - Transaction instructions
+   * @returns {TxRes} - Response
    */
   public async CloseListing(
     mint: PublicKey,
@@ -116,7 +117,7 @@ export class NightmarketClient {
    * @param amount - A SOL price of offer
    * @param seller - A public key for the NFT owner
    * @param buyer - A public key for buyer
-   * @returns {TxRes} - Transaction instructions
+   * @returns {TxRes} - Response
    */
   public async CreateOffer(
     mint: PublicKey,
@@ -151,7 +152,7 @@ export class NightmarketClient {
    * @param amount - A SOL price of offer
    * @param seller - A public key for the NFT owner
    * @param buyer - A public key for buyer
-   * @returns {TxRes} - Transaction instructions
+   * @returns {TxRes} - Response
    */
   public async CloseOffer(
     mint: PublicKey,
@@ -170,6 +171,46 @@ export class NightmarketClient {
       });
       return {
         ixs,
+        err: null,
+      };
+    } catch (e) {
+      return {
+        ixs: [],
+        err: e as string,
+      };
+    }
+  }
+
+   /**
+   * Accept an offer
+   * @param mint - A public key for the listed NFT
+   * @param amount - A SOL price of offer
+   * @param seller - A public key for the NFT owner
+   * @param buyer - A public key for buyer
+   * @returns {TxRes} - Response
+   */
+   public async AcceptOffer(
+    mint: PublicKey,
+    amount: number,
+    seller: PublicKey,
+    buyer: PublicKey,
+  ): Promise<TxRes> {
+    try {
+      const ixs = await getAcceptOfferIxs({
+        connection: this.config.connection,
+        auctionHouse: this.config.auctionHouse,
+        mint,
+        amount,
+        seller,
+        buyer,
+      });
+      const lookupTableAccount = await this.config.connection
+        .getAddressLookupTable(this.config.addressLookupTable)
+        .then((res) => res.value);
+
+      return {
+        ixs,
+        ltAccount: lookupTableAccount,
         err: null,
       };
     } catch (e) {
