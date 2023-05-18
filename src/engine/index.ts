@@ -5,6 +5,7 @@ import {
   getCreateListingIxs,
   getUpdateListingIxs,
 } from './lib';
+import { getCreateOfferIxs } from './lib/createOffer';
 
 export class NightmarketClient {
   public config: Config;
@@ -95,6 +96,41 @@ export class NightmarketClient {
         auctionHouse: this.config.auctionHouse,
         mint,
         seller,
+      });
+      return {
+        ixs,
+        err: null,
+      };
+    } catch (e) {
+      return {
+        ixs: [],
+        err: e as string,
+      };
+    }
+  }
+
+  /**
+   * Creates an offer for buying a listed NFT
+   * @param mint - A public key for the listed NFT
+   * @param amount - A SOL price of offer
+   * @param seller - A public key for the NFT owner
+   * @param buyer - A public key for buyer
+   * @returns {TxRes} - Transaction instructions
+   */
+  public async CreateOffer(
+    mint: PublicKey,
+    amount: number,
+    seller: PublicKey,
+    buyer: PublicKey,
+  ): Promise<TxRes> {
+    try {
+      const ixs = await getCreateOfferIxs({
+        connection: this.config.connection,
+        auctionHouse: this.config.auctionHouse,
+        mint,
+        amount,
+        seller,
+        buyer,
       });
       return {
         ixs,
