@@ -1,5 +1,5 @@
 import { Connection, PublicKey, TransactionInstruction } from '@solana/web3.js';
-import { Config, defaultConfig } from 'src/types';
+import { Config, TxRes, defaultConfig } from 'src/types';
 import {
   getCloseListingIxs,
   getCreateListingIxs,
@@ -21,21 +21,32 @@ export class NightmarketClient {
    * @param mint - A public key for the listed NFT
    * @param amount - A SOL price of listing
    * @param seller - A public key for the NFT owner
-   * @returns {TransactionInstruction[]} - Transaction instructions
+   * @returns {TxRes} - Transaction instructions
    */
   public async CreateListing(
     mint: PublicKey,
     amount: number,
     seller: PublicKey,
     isPNFT = true,
-  ): Promise<TransactionInstruction[]> {
-    return await getCreateListingIxs({
-      connection: this.config.connection,
-      auctionHouse: this.config.auctionHouse,
-      mint,
-      amount,
-      seller,
-    });
+  ): Promise<TxRes> {
+    try {
+      const ixs = await getCreateListingIxs({
+        connection: this.config.connection,
+        auctionHouse: this.config.auctionHouse,
+        mint,
+        amount,
+        seller,
+      });
+      return {
+        ixs,
+        err: null,
+      };
+    } catch (e) {
+      return {
+        ixs: [],
+        err: e as string,
+      };
+    }
   }
 
   /**
@@ -43,19 +54,30 @@ export class NightmarketClient {
    * @param mint - A public key for the listed NFT
    * @param amount - A SOL price of listing
    * @param seller - A public key for the NFT owner
-   * @returns {TransactionInstruction[]} - Transaction instructions
+   * @returns {TxRes} - Transaction instructions
    */
   public async UpdateListing(
     mint: PublicKey,
     amount: number,
     seller: PublicKey,
-  ): Promise<TransactionInstruction[]> {
-    return getUpdateListingIxs({
-      auctionHouse: this.config.auctionHouse,
-      mint,
-      amount,
-      seller,
-    });
+  ): Promise<TxRes> {
+    try {
+      const ixs = getUpdateListingIxs({
+        auctionHouse: this.config.auctionHouse,
+        mint,
+        amount,
+        seller,
+      });
+      return {
+        ixs,
+        err: null,
+      };
+    } catch (e) {
+      return {
+        ixs: [],
+        err: e as string,
+      };
+    }
   }
 
   /**
