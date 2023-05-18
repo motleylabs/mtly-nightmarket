@@ -38,6 +38,10 @@ export const getCreateListingIxs = async ({
   amount: number;
   seller: PublicKey;
 }): Promise<TransactionInstruction[]> => {
+  if (!auctionHouse.rewardCenter) {
+    throw 'reward center data not found';
+  }
+
   const auctionHouseAddress = new PublicKey(auctionHouse.address);
   const buyerPrice = toLamports(amount);
   const authority = new PublicKey(auctionHouse.authority);
@@ -52,7 +56,7 @@ export const getCreateListingIxs = async ({
 
   const mintMetadata = await getMetadata(connection, metadata);
   if (!mintMetadata) {
-    throw 'Metadata not found';
+    throw 'metadata not found';
   }
 
   const [sellerTradeState, tradeStateBump] =

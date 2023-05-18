@@ -42,7 +42,7 @@ export const getCloseListingIxs = async ({
 
   const mintMetadata = await getMetadata(connection, metadata);
   if (!mintMetadata) {
-    throw 'Metadata not found';
+    throw 'metadata not found';
   }
 
   const [sellerTradeState] =
