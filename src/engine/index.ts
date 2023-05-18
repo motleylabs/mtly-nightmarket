@@ -181,7 +181,7 @@ export class NightmarketClient {
     }
   }
 
-   /**
+  /**
    * Accept an offer
    * @param mint - A public key for the listed NFT
    * @param amount - A SOL price of offer
@@ -189,7 +189,7 @@ export class NightmarketClient {
    * @param buyer - A public key for buyer
    * @returns {TxRes} - Response
    */
-   public async AcceptOffer(
+  public async AcceptOffer(
     mint: PublicKey,
     amount: number,
     seller: PublicKey,
@@ -206,7 +206,7 @@ export class NightmarketClient {
       });
       const lookupTableAccount = await this.config.connection
         .getAddressLookupTable(this.config.addressLookupTable)
-        .then((res) => res.value);
+        .then(res => res.value);
 
       return {
         ixs,
