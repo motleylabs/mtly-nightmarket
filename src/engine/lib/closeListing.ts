@@ -9,6 +9,7 @@ import {
 import { AuctionHouse } from 'src/types';
 import {
   AuctionHouseProgram,
+  getMetadata,
   getMetadataAccount,
   getPNFTAccounts,
 } from 'src/utils';
@@ -17,19 +18,18 @@ import {
   CloseListingInstructionAccounts,
   createCloseListingInstruction,
 } from '@motleylabs/mtly-reward-center';
+import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata';
 
 export const getCloseListingIxs = async ({
   connection,
   auctionHouse,
   mint,
   seller,
-  isPNFT,
 }: {
   connection: Connection;
   auctionHouse: AuctionHouse;
   mint: PublicKey;
   seller: PublicKey;
-  isPNFT: boolean;
 }): Promise<TransactionInstruction[]> => {
   const auctionHouseAddress = new PublicKey(auctionHouse.address);
   const authority = new PublicKey(auctionHouse.authority);
@@ -39,6 +39,11 @@ export const getCloseListingIxs = async ({
   const treasuryMint = new PublicKey(auctionHouse.treasuryMint);
   const metadata = getMetadataAccount(mint);
   const associatedTokenAccount = getAssociatedTokenAddressSync(mint, seller);
+
+  const mintMetadata = await getMetadata(connection, metadata);
+  if (!mintMetadata) {
+    throw 'Metadata not found';
+  }
 
   const [sellerTradeState] =
     RewardCenterProgram.findAuctioneerTradeStateAddress(
@@ -79,7 +84,7 @@ export const getCloseListingIxs = async ({
     ahAuctioneerPda: auctioneer,
   };
 
-  if (isPNFT) {
+  if (mintMetadata.tokenStandard === TokenStandard.ProgrammableNonFungible) {
     const [programAsSigner] =
       AuctionHouseProgram.findAuctionHouseProgramAsSignerAddress();
     const pnftAccounts = await getPNFTAccounts(
