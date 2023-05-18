@@ -21,7 +21,6 @@ export class NightmarketClient {
    * @param mint - A public key for the listed NFT
    * @param amount - A SOL price of listing
    * @param seller - A public key for the NFT owner
-   * @param isPNFT - A boolean param that shows whether the NFT is programmable or not
    * @returns {TransactionInstruction[]} - Transaction instructions
    */
   public async CreateListing(
@@ -36,7 +35,6 @@ export class NightmarketClient {
       mint,
       amount,
       seller,
-      isPNFT,
     });
   }
 
