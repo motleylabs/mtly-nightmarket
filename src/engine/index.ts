@@ -8,6 +8,7 @@ import {
 import { getCreateOfferIxs } from './lib/createOffer';
 import { getCloseOfferIxs } from './lib/closeOffer';
 import { getAcceptOfferIxs } from './lib/acceptOffer';
+import { getBuyListingIxs } from './lib/buyListing';
 
 export class NightmarketClient {
   public config: Config;
@@ -197,6 +198,46 @@ export class NightmarketClient {
   ): Promise<TxRes> {
     try {
       const ixs = await getAcceptOfferIxs({
+        connection: this.config.connection,
+        auctionHouse: this.config.auctionHouse,
+        mint,
+        amount,
+        seller,
+        buyer,
+      });
+      const lookupTableAccount = await this.config.connection
+        .getAddressLookupTable(this.config.addressLookupTable)
+        .then(res => res.value);
+
+      return {
+        ixs,
+        ltAccount: lookupTableAccount,
+        err: null,
+      };
+    } catch (e) {
+      return {
+        ixs: [],
+        err: e as string,
+      };
+    }
+  }
+
+  /**
+   * Buys an listing
+   * @param mint - A public key for the listed NFT
+   * @param amount - A SOL price of offer
+   * @param seller - A public key for the NFT owner
+   * @param buyer - A public key for buyer
+   * @returns {TxRes} - Response
+   */
+  public async BuyListing(
+    mint: PublicKey,
+    amount: number,
+    seller: PublicKey,
+    buyer: PublicKey,
+  ): Promise<TxRes> {
+    try {
+      const ixs = await getBuyListingIxs({
         connection: this.config.connection,
         auctionHouse: this.config.auctionHouse,
         mint,
