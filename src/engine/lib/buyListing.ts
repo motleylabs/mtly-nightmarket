@@ -17,7 +17,7 @@ import {
   getMetadataAccount,
   getPNFTAccounts,
   toLamports,
-} from 'src/utils';
+} from '../../utils';
 import { RewardCenterProgram } from '../modules';
 import {
   BuyListingInstructionAccounts,

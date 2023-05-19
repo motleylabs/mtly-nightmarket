@@ -12,7 +12,7 @@ import {
   getMetadata,
   getMetadataAccount,
   getPNFTAccounts,
-} from 'src/utils';
+} from '../../utils';
 import { RewardCenterProgram } from '../modules';
 import {
   CloseListingInstructionAccounts,
