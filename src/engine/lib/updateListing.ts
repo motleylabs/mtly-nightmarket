@@ -1,7 +1,11 @@
 import { getAssociatedTokenAddressSync } from '@solana/spl-token';
 import { PublicKey, TransactionInstruction } from '@solana/web3.js';
 import { AuctionHouse } from '../../types';
-import { AuctionHouseProgram, getMetadataAccount, toLamports } from '../../utils';
+import {
+  AuctionHouseProgram,
+  getMetadataAccount,
+  toLamports,
+} from '../../utils';
 import { RewardCenterProgram } from '../modules';
 import {
   UpdateListingInstructionAccounts,
