@@ -1,5 +1,5 @@
 import { Connection, PublicKey } from '@solana/web3.js';
-import { Config, TxRes, defaultConfig } from 'src/types';
+import { Config, TxRes, defaultConfig } from '../types';
 import {
   getCloseListingIxs,
   getCreateListingIxs,

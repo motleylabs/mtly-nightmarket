@@ -25,6 +25,6 @@
     "useUnknownInCatchVariables": false,
     "rootDir": "."
   },
-  "include": ["./src", "test"],
+  "include": ["src"],
   "exclude": ["node_modules", "dist", "build", "lib"]
 }

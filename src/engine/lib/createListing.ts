@@ -9,7 +9,7 @@ import {
   PublicKey,
   TransactionInstruction,
 } from '@solana/web3.js';
-import { AuctionHouse } from 'src/types';
+import { AuctionHouse } from '../../types';
 import {
   AuctionHouseProgram,
   getMetadataAccount,

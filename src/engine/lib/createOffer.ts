@@ -8,7 +8,7 @@ import {
   PublicKey,
   TransactionInstruction,
 } from '@solana/web3.js';
-import { AuctionHouse } from 'src/types';
+import { AuctionHouse } from '../../types';
 import { AuctionHouseProgram, getMetadataAccount, toLamports } from 'src/utils';
 import { RewardCenterProgram } from '../modules';
 import {
