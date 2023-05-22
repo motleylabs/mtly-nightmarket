@@ -25,12 +25,14 @@ export class NightmarketClient {
    * @param mint - A public key for the listed NFT
    * @param amount - A SOL price of listing
    * @param seller - A public key for the NFT owner
+   * @param budgetIxNeeded - A flag to indicate if the budget instruction is needed
    * @returns {TxRes} - Response
    */
   public async CreateListing(
     mint: PublicKey,
     amount: number,
     seller: PublicKey,
+    budgetIxNeeded = true,
   ): Promise<TxRes> {
     try {
       const ixs = await getCreateListingIxs({
@@ -39,6 +41,7 @@ export class NightmarketClient {
         mint,
         amount,
         seller,
+        budgetIxNeeded,
       });
       return {
         ixs,

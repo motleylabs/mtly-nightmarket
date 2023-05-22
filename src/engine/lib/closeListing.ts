@@ -115,7 +115,6 @@ export const getCloseListingIxs = async ({
   const instruction = createCloseListingInstruction(accounts);
 
   const ixs: TransactionInstruction[] = [];
-  ixs.push(instruction);
 
   const culIx = ComputeBudgetProgram.setComputeUnitLimit({ units: 600000 });
   ixs.push(culIx);
@@ -124,5 +123,6 @@ export const getCloseListingIxs = async ({
   });
   ixs.push(cupIx);
 
+  ixs.push(instruction);
   return ixs;
 };
