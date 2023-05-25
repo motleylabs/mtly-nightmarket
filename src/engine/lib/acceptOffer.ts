@@ -230,7 +230,7 @@ export const getAcceptOfferInstructions = async ({
   const keys = acceptOfferIx.keys.concat(remainingAccounts);
 
   const ixs: TransactionInstruction[] = [];
-  
+
   // add instruction to close listing if exists
   const [listingAddress] = RewardCenterProgram.findListingAddress(
     seller,
