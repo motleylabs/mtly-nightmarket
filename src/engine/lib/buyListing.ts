@@ -1,5 +1,5 @@
 import {
-  createAssociatedTokenAccountInstruction,
+  createAssociatedTokenAccountIdempotentInstruction,
   getAssociatedTokenAddress,
   getAssociatedTokenAddressSync,
 } from '@solana/spl-token';
@@ -26,7 +26,7 @@ import {
 } from '@motleylabs/mtly-reward-center';
 import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata';
 
-export const getBuyListingIxs = async ({
+export const getBuyListingInstructions = async ({
   connection,
   auctionHouse,
   mint,
@@ -124,7 +124,7 @@ export const getBuyListingIxs = async ({
 
   const buyerRewardTokenAccount = await getAssociatedTokenAddress(token, buyer);
 
-  const buyerATAInstruction = createAssociatedTokenAccountInstruction(
+  const buyerATAInstruction = createAssociatedTokenAccountIdempotentInstruction(
     buyer,
     buyerRewardTokenAccount,
     buyer,
@@ -176,9 +176,9 @@ export const getBuyListingIxs = async ({
   };
 
   const ixs: TransactionInstruction[] = [];
+  ixs.push(buyerATAInstruction);
 
   const buyListingIx = createBuyListingInstruction(accounts, args);
-
   let remainingAccounts: AccountMeta[] = [];
 
   // find NFT creators
@@ -211,24 +211,14 @@ export const getBuyListingIxs = async ({
     remainingAccounts.push(pnftAccounts.sysvarInstructions);
   }
 
-  const buyerAtAInfo = await connection.getAccountInfo(buyerRewardTokenAccount);
-
   // patch metadata account to writable for AH / RWD
   for (let i = 0; i < buyListingIx.keys.length; i++) {
     if (buyListingIx.keys[i].pubkey.equals(metadata)) {
       buyListingIx.keys[i].isWritable = true;
     }
   }
-
   const keys = buyListingIx.keys.concat(remainingAccounts);
-
-  const ix = ComputeBudgetProgram.setComputeUnitLimit({ units: 1000000 });
-  ixs.push(ix);
-
-  if (!buyerAtAInfo) {
-    ixs.push(buyerATAInstruction);
-  }
-
+  
   ixs.push(
     new TransactionInstruction({
       programId: RewardCenterProgram.PUBKEY,
@@ -236,6 +226,9 @@ export const getBuyListingIxs = async ({
       keys,
     }),
   );
+  
+  const ix = ComputeBudgetProgram.setComputeUnitLimit({ units: 1000000 });
+  ixs.push(ix);
 
   return ixs;
 };

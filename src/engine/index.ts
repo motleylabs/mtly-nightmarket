@@ -7,7 +7,7 @@ import {
   getCreateOfferInstructions,
   getCloseOfferInstructions,
   getAcceptOfferInstructions,
-  getBuyListingIxs, 
+  getBuyListingInstructions, 
 } from './lib';
 
 export class NightmarketClient {
@@ -250,7 +250,7 @@ export class NightmarketClient {
     buyer: PublicKey,
   ): Promise<TxRes> {
     try {
-      const ixs = await getBuyListingIxs({
+      const ixs = await getBuyListingInstructions({
         connection: this.config.connection,
         auctionHouse: this.config.auctionHouse,
         mint,
