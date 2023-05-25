@@ -4,7 +4,7 @@ import {
 } from '@solana/web3.js';
 
 export type TxRes = {
-  ixs: TransactionInstruction[];
+  instructions: TransactionInstruction[];
   err: string | null;
   ltAccount?: AddressLookupTableAccount | null;
 };

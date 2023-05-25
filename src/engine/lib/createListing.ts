@@ -154,17 +154,18 @@ export const getCreateListingIxs = async ({
 
   const sellerRewardTokenAccount = getAssociatedTokenAddressSync(token, seller);
 
-  const sellerATAInstruction = createAssociatedTokenAccountIdempotentInstruction(
-    seller,
-    sellerRewardTokenAccount,
-    seller,
-    token,
-  );
+  const sellerATAInstruction =
+    createAssociatedTokenAccountIdempotentInstruction(
+      seller,
+      sellerRewardTokenAccount,
+      seller,
+      token,
+    );
 
   const ixs: TransactionInstruction[] = [];
 
   ixs.push(sellerATAInstruction, instruction);
-  
+
   if (budgetIxNeeded) {
     const culIx = ComputeBudgetProgram.setComputeUnitLimit({ units: 600000 });
     ixs.push(culIx);

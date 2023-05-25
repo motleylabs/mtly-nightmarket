@@ -43,13 +43,18 @@ export class NightmarketClient {
         seller,
         budgetIxNeeded,
       });
+      const lookupTableAccount = await this.config.connection
+        .getAddressLookupTable(this.config.addressLookupTable)
+        .then(res => res.value);
+
       return {
-        ixs,
+        instructions: ixs,
         err: null,
+        ltAccount: lookupTableAccount,
       };
     } catch (e) {
       return {
-        ixs: [],
+        instructions: [],
         err: e as string,
       };
     }
@@ -75,12 +80,12 @@ export class NightmarketClient {
         seller,
       });
       return {
-        ixs,
+        instructions: ixs,
         err: null,
       };
     } catch (e) {
       return {
-        ixs: [],
+        instructions: [],
         err: e as string,
       };
     }
@@ -104,12 +109,12 @@ export class NightmarketClient {
         seller,
       });
       return {
-        ixs,
+        instructions: ixs,
         err: null,
       };
     } catch (e) {
       return {
-        ixs: [],
+        instructions: [],
         err: e as string,
       };
     }
@@ -139,12 +144,12 @@ export class NightmarketClient {
         buyer,
       });
       return {
-        ixs,
+        instructions: ixs,
         err: null,
       };
     } catch (e) {
       return {
-        ixs: [],
+        instructions: [],
         err: e as string,
       };
     }
@@ -174,12 +179,12 @@ export class NightmarketClient {
         buyer,
       });
       return {
-        ixs,
+        instructions: ixs,
         err: null,
       };
     } catch (e) {
       return {
-        ixs: [],
+        instructions: [],
         err: e as string,
       };
     }
@@ -213,13 +218,13 @@ export class NightmarketClient {
         .then(res => res.value);
 
       return {
-        ixs,
+        instructions: ixs,
         ltAccount: lookupTableAccount,
         err: null,
       };
     } catch (e) {
       return {
-        ixs: [],
+        instructions: [],
         err: e as string,
       };
     }
@@ -253,13 +258,13 @@ export class NightmarketClient {
         .then(res => res.value);
 
       return {
-        ixs,
+        instructions: ixs,
         ltAccount: lookupTableAccount,
         err: null,
       };
     } catch (e) {
       return {
-        ixs: [],
+        instructions: [],
         err: e as string,
       };
     }
