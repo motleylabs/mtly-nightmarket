@@ -1,5 +1,5 @@
 import {
-  createAssociatedTokenAccountInstruction,
+  createAssociatedTokenAccountIdempotentInstruction,
   getAssociatedTokenAddressSync,
 } from '@solana/spl-token';
 import {
@@ -154,19 +154,17 @@ export const getCreateListingIxs = async ({
 
   const sellerRewardTokenAccount = getAssociatedTokenAddressSync(token, seller);
 
-  const sellerATAInstruction = createAssociatedTokenAccountInstruction(
+  const sellerATAInstruction = createAssociatedTokenAccountIdempotentInstruction(
     seller,
     sellerRewardTokenAccount,
     seller,
     token,
   );
 
-  const sellerATAInfo = await connection.getAccountInfo(
-    sellerRewardTokenAccount,
-  );
-
   const ixs: TransactionInstruction[] = [];
 
+  ixs.push(sellerATAInstruction, instruction);
+  
   if (budgetIxNeeded) {
     const culIx = ComputeBudgetProgram.setComputeUnitLimit({ units: 600000 });
     ixs.push(culIx);
@@ -175,12 +173,6 @@ export const getCreateListingIxs = async ({
     });
     ixs.push(cupIx);
   }
-
-  if (!sellerATAInfo) {
-    ixs.push(sellerATAInstruction);
-  }
-
-  ixs.push(instruction);
 
   return ixs;
 };
