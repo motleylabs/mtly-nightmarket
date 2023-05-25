@@ -115,9 +115,6 @@ export const getCreateOfferInstructions = async ({
 
   const ixs: TransactionInstruction[] = [];
 
-  const ix = ComputeBudgetProgram.setComputeUnitLimit({ units: 600000 });
-  ixs.push(ix);
-
   const buyerRewardTokenAccount = getAssociatedTokenAddressSync(token, buyer);
 
   const buyerATAInstruction = createAssociatedTokenAccountIdempotentInstruction(
@@ -128,6 +125,9 @@ export const getCreateOfferInstructions = async ({
   );
 
   ixs.push(buyerATAInstruction, instruction);
+
+  const ix = ComputeBudgetProgram.setComputeUnitLimit({ units: 600000 });
+  ixs.push(ix);
 
   return ixs;
 };

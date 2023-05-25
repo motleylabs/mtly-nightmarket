@@ -229,12 +229,8 @@ export const getAcceptOfferInstructions = async ({
 
   const keys = acceptOfferIx.keys.concat(remainingAccounts);
 
-  const ix = ComputeBudgetProgram.setComputeUnitLimit({ units: 1000000 });
-
   const ixs: TransactionInstruction[] = [];
-
-  ixs.push(ix);
-
+  
   // add instruction to close listing if exists
   const [listingAddress] = RewardCenterProgram.findListingAddress(
     seller,
@@ -303,6 +299,9 @@ export const getAcceptOfferInstructions = async ({
       keys,
     }),
   );
+
+  const ix = ComputeBudgetProgram.setComputeUnitLimit({ units: 1000000 });
+  ixs.push(ix);
 
   return ixs;
 };
