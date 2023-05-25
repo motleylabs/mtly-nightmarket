@@ -50,7 +50,7 @@ export class NightmarketClient {
       return {
         instructions: ixs,
         err: null,
-        ltAccount: lookupTableAccount,
+        ltAccounts: !!lookupTableAccount ? [lookupTableAccount] : undefined,
       };
     } catch (e) {
       return {
@@ -219,7 +219,7 @@ export class NightmarketClient {
 
       return {
         instructions: ixs,
-        ltAccount: lookupTableAccount,
+        ltAccounts: !!lookupTableAccount ? [lookupTableAccount] : undefined,
         err: null,
       };
     } catch (e) {
@@ -259,7 +259,7 @@ export class NightmarketClient {
 
       return {
         instructions: ixs,
-        ltAccount: lookupTableAccount,
+        ltAccounts: !!lookupTableAccount ? [lookupTableAccount] : undefined,
         err: null,
       };
     } catch (e) {

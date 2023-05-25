@@ -6,5 +6,5 @@ import {
 export type TxRes = {
   instructions: TransactionInstruction[];
   err: string | null;
-  ltAccount?: AddressLookupTableAccount | null;
+  ltAccounts?: AddressLookupTableAccount[];
 };
