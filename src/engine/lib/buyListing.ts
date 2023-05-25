@@ -218,7 +218,7 @@ export const getBuyListingInstructions = async ({
     }
   }
   const keys = buyListingIx.keys.concat(remainingAccounts);
-  
+
   ixs.push(
     new TransactionInstruction({
       programId: RewardCenterProgram.PUBKEY,
@@ -226,7 +226,7 @@ export const getBuyListingInstructions = async ({
       keys,
     }),
   );
-  
+
   const ix = ComputeBudgetProgram.setComputeUnitLimit({ units: 1000000 });
   ixs.push(ix);
 

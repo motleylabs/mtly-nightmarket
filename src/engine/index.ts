@@ -7,7 +7,7 @@ import {
   getCreateOfferInstructions,
   getCloseOfferInstructions,
   getAcceptOfferInstructions,
-  getBuyListingInstructions, 
+  getBuyListingInstructions,
 } from './lib';
 
 export class NightmarketClient {
@@ -111,7 +111,7 @@ export class NightmarketClient {
       const lookupTableAccount = await this.config.connection
         .getAddressLookupTable(this.config.addressLookupTable)
         .then(res => res.value);
-        
+
       return {
         instructions: ixs,
         ltAccounts: !!lookupTableAccount ? [lookupTableAccount] : undefined,

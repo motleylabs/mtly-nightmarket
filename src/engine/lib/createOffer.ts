@@ -127,7 +127,7 @@ export const getCreateOfferInstructions = async ({
     token,
   );
 
-  ixs.push(buyerATAInstruction, instruction);  
+  ixs.push(buyerATAInstruction, instruction);
 
   return ixs;
 };

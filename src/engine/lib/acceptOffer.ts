@@ -129,12 +129,13 @@ export const getAcceptOfferInstructions = async ({
   const buyerRewardTokenAccount = getAssociatedTokenAddressSync(token, buyer);
   const sellerRewardTokenAccount = getAssociatedTokenAddressSync(token, seller);
 
-  const sellerATAInstruction = createAssociatedTokenAccountIdempotentInstruction(
-    seller,
-    sellerRewardTokenAccount,
-    seller,
-    token,
-  );
+  const sellerATAInstruction =
+    createAssociatedTokenAccountIdempotentInstruction(
+      seller,
+      sellerRewardTokenAccount,
+      seller,
+      token,
+    );
 
   const acceptOfferAccounts: AcceptOfferInstructionAccounts = {
     buyer: buyer,
