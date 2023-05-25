@@ -1,5 +1,5 @@
 import {
-  createAssociatedTokenAccountInstruction,
+  createAssociatedTokenAccountIdempotentInstruction,
   getAssociatedTokenAddressSync,
 } from '@solana/spl-token';
 import {
@@ -27,7 +27,7 @@ import {
 } from '@motleylabs/mtly-reward-center';
 import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata';
 
-export const getAcceptOfferIxs = async ({
+export const getAcceptOfferInstructions = async ({
   connection,
   auctionHouse,
   mint,
@@ -129,15 +129,11 @@ export const getAcceptOfferIxs = async ({
   const buyerRewardTokenAccount = getAssociatedTokenAddressSync(token, buyer);
   const sellerRewardTokenAccount = getAssociatedTokenAddressSync(token, seller);
 
-  const sellerATAInstruction = createAssociatedTokenAccountInstruction(
+  const sellerATAInstruction = createAssociatedTokenAccountIdempotentInstruction(
     seller,
     sellerRewardTokenAccount,
     seller,
     token,
-  );
-
-  const sellerAtAInfo = await connection.getAccountInfo(
-    sellerRewardTokenAccount,
   );
 
   const acceptOfferAccounts: AcceptOfferInstructionAccounts = {
@@ -296,9 +292,7 @@ export const getAcceptOfferIxs = async ({
   }
 
   // add instruction to create a seller ATA for reward token
-  if (!sellerAtAInfo) {
-    ixs.push(sellerATAInstruction);
-  }
+  ixs.push(sellerATAInstruction);
 
   // add accept offer instruction
   ixs.push(

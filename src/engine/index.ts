@@ -4,9 +4,9 @@ import {
   getCloseListingInstructions,
   getCreateListingInstructions,
   getUpdateListingInstructions,
-  getCreateOfferIxs,
-  getCloseOfferIxs,
-  getAcceptOfferIxs,
+  getCreateOfferInstructions,
+  getCloseOfferInstructions,
+  getAcceptOfferInstructions,
   getBuyListingIxs, 
 } from './lib';
 
@@ -140,7 +140,7 @@ export class NightmarketClient {
     buyer: PublicKey,
   ): Promise<TxRes> {
     try {
-      const ixs = await getCreateOfferIxs({
+      const ixs = await getCreateOfferInstructions({
         connection: this.config.connection,
         auctionHouse: this.config.auctionHouse,
         mint,
@@ -175,7 +175,7 @@ export class NightmarketClient {
     buyer: PublicKey,
   ): Promise<TxRes> {
     try {
-      const ixs = await getCloseOfferIxs({
+      const ixs = await getCloseOfferInstructions({
         connection: this.config.connection,
         auctionHouse: this.config.auctionHouse,
         mint,
@@ -210,7 +210,7 @@ export class NightmarketClient {
     buyer: PublicKey,
   ): Promise<TxRes> {
     try {
-      const ixs = await getAcceptOfferIxs({
+      const ixs = await getAcceptOfferInstructions({
         connection: this.config.connection,
         auctionHouse: this.config.auctionHouse,
         mint,

@@ -13,7 +13,7 @@ import {
   createCloseOfferInstruction,
 } from '@motleylabs/mtly-reward-center';
 
-export const getCloseOfferIxs = async ({
+export const getCloseOfferInstructions = async ({
   connection,
   auctionHouse,
   mint,

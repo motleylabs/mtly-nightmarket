@@ -1,5 +1,5 @@
 import {
-  createAssociatedTokenAccountInstruction,
+  createAssociatedTokenAccountIdempotentInstruction,
   getAssociatedTokenAddressSync,
 } from '@solana/spl-token';
 import {
@@ -21,7 +21,7 @@ import {
   createCreateOfferInstruction,
 } from '@motleylabs/mtly-reward-center';
 
-export const getCreateOfferIxs = async ({
+export const getCreateOfferInstructions = async ({
   connection,
   auctionHouse,
   mint,
@@ -120,20 +120,14 @@ export const getCreateOfferIxs = async ({
 
   const buyerRewardTokenAccount = getAssociatedTokenAddressSync(token, buyer);
 
-  const buyerATAInstruction = createAssociatedTokenAccountInstruction(
+  const buyerATAInstruction = createAssociatedTokenAccountIdempotentInstruction(
     buyer,
     buyerRewardTokenAccount,
     buyer,
     token,
   );
 
-  const buyerAtAInfo = await connection.getAccountInfo(buyerRewardTokenAccount);
-
-  if (!buyerAtAInfo) {
-    ixs.push(buyerATAInstruction);
-  }
-
-  ixs.push(instruction);
+  ixs.push(buyerATAInstruction, instruction);  
 
   return ixs;
 };
