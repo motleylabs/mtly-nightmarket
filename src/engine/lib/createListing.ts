@@ -25,7 +25,7 @@ import {
 import { getMetadata } from '../../utils';
 import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata';
 
-export const getCreateListingIxs = async ({
+export const getCreateListingInstructions = async ({
   connection,
   auctionHouse,
   mint,

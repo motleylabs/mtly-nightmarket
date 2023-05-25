@@ -13,7 +13,7 @@ import {
   createUpdateListingInstruction,
 } from '@motleylabs/mtly-reward-center';
 
-export const getUpdateListingIxs = ({
+export const getUpdateListingInstructions = ({
   auctionHouse,
   mint,
   amount,

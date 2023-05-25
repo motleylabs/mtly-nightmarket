@@ -20,7 +20,7 @@ import {
 } from '@motleylabs/mtly-reward-center';
 import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata';
 
-export const getCloseListingIxs = async ({
+export const getCloseListingInstructions = async ({
   connection,
   auctionHouse,
   mint,
@@ -116,6 +116,8 @@ export const getCloseListingIxs = async ({
 
   const ixs: TransactionInstruction[] = [];
 
+  ixs.push(instruction);
+
   const culIx = ComputeBudgetProgram.setComputeUnitLimit({ units: 600000 });
   ixs.push(culIx);
   const cupIx = ComputeBudgetProgram.setComputeUnitPrice({
@@ -123,6 +125,5 @@ export const getCloseListingIxs = async ({
   });
   ixs.push(cupIx);
 
-  ixs.push(instruction);
   return ixs;
 };

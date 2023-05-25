@@ -1,14 +1,14 @@
 import { Connection, PublicKey } from '@solana/web3.js';
 import { Config, TxRes, defaultConfig } from '../types';
 import {
-  getCloseListingIxs,
-  getCreateListingIxs,
-  getUpdateListingIxs,
+  getCloseListingInstructions,
+  getCreateListingInstructions,
+  getUpdateListingInstructions,
+  getCreateOfferIxs,
+  getCloseOfferIxs,
+  getAcceptOfferIxs,
+  getBuyListingIxs, 
 } from './lib';
-import { getCreateOfferIxs } from './lib/createOffer';
-import { getCloseOfferIxs } from './lib/closeOffer';
-import { getAcceptOfferIxs } from './lib/acceptOffer';
-import { getBuyListingIxs } from './lib/buyListing';
 
 export class NightmarketClient {
   public config: Config;
@@ -35,7 +35,7 @@ export class NightmarketClient {
     budgetIxNeeded = true,
   ): Promise<TxRes> {
     try {
-      const ixs = await getCreateListingIxs({
+      const ixs = await getCreateListingInstructions({
         connection: this.config.connection,
         auctionHouse: this.config.auctionHouse,
         mint,
@@ -49,8 +49,8 @@ export class NightmarketClient {
 
       return {
         instructions: ixs,
-        err: null,
         ltAccounts: !!lookupTableAccount ? [lookupTableAccount] : undefined,
+        err: null,
       };
     } catch (e) {
       return {
@@ -73,7 +73,7 @@ export class NightmarketClient {
     seller: PublicKey,
   ): Promise<TxRes> {
     try {
-      const ixs = getUpdateListingIxs({
+      const ixs = getUpdateListingInstructions({
         auctionHouse: this.config.auctionHouse,
         mint,
         amount,
@@ -102,14 +102,19 @@ export class NightmarketClient {
     seller: PublicKey,
   ): Promise<TxRes> {
     try {
-      const ixs = await getCloseListingIxs({
+      const ixs = await getCloseListingInstructions({
         connection: this.config.connection,
         auctionHouse: this.config.auctionHouse,
         mint,
         seller,
       });
+      const lookupTableAccount = await this.config.connection
+        .getAddressLookupTable(this.config.addressLookupTable)
+        .then(res => res.value);
+        
       return {
         instructions: ixs,
+        ltAccounts: !!lookupTableAccount ? [lookupTableAccount] : undefined,
         err: null,
       };
     } catch (e) {
