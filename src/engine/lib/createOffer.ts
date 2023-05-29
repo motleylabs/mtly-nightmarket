@@ -47,7 +47,7 @@ export const getCreateOfferInstructions = async ({
   const treasuryMint = new PublicKey(auctionHouse.treasuryMint);
   const metadata = getMetadataAccount(mint);
   const associatedTokenAccount = getAssociatedTokenAddressSync(mint, seller);
-  const token = auctionHouse.rewardCenter!.tokenMint;
+  const token = new PublicKey(auctionHouse.rewardCenter!.tokenMint);
 
   const [escrowPaymentAcc, escrowPaymentBump] =
     AuctionHouseProgram.findEscrowPaymentAccountAddress(

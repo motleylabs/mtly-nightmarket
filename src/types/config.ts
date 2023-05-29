@@ -1,10 +1,10 @@
-import { Connection, PublicKey } from '@solana/web3.js';
+import { Connection } from '@solana/web3.js';
 import { AuctionHouse } from './auctionHouse';
 
 export type Config = {
   auctionHouse: AuctionHouse;
   connection: Connection;
-  addressLookupTable: PublicKey;
+  addressLookupTable: string;
 };
 
 export const defaultConfig: Config = {
@@ -14,17 +14,16 @@ export const defaultConfig: Config = {
     auctionHouseTreasury: 'Ad7toYmfWGMYeB3gsDXTPFRgUhkNwvimZxC69nzkqJK7',
     authority: 'MtLyd5Jf2V3YbkUyRPR4VSUaa1MYw38c2U6dCwg4WUv',
     rewardCenter: {
-      address: new PublicKey('DzDX1vvRamMeAdcKCdsekcqeqLgRosF7NEZcDwWFWLRk'),
+      address: 'DzDX1vvRamMeAdcKCdsekcqeqLgRosF7NEZcDwWFWLRk',
       mathematicalOperand: 0,
       payoutNumeral: 0,
       sellerRewardPayoutBasisPoints: 0,
-      tokenMint: new PublicKey('SAUCEvCGBkPPDPsiSWG5heGNMw68mc6EMuyGYwAfgaD'),
+      tokenMint: 'SAUCEvCGBkPPDPsiSWG5heGNMw68mc6EMuyGYwAfgaD',
     },
     sellerFeeBasisPoints: 100,
     treasuryMint: 'So11111111111111111111111111111111111111112',
   },
   connection: new Connection('https://api.mainnet-beta.solana.com'),
-  addressLookupTable: new PublicKey(
+  addressLookupTable: 
     'HQma5N1kPpYiQBMUx4CqDSuUyjCzNHhvRtRz1qTBNtNp',
-  ),
 };

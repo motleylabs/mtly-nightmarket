@@ -1,5 +1,4 @@
 import type { PayoutOperation } from '@motleylabs/mtly-reward-center';
-import type { PublicKey } from '@solana/web3.js';
 
 export type AuctionHouse = {
   address: string;
@@ -12,8 +11,8 @@ export type AuctionHouse = {
 };
 
 export type RewardCenter = {
-  address: PublicKey;
-  tokenMint: PublicKey;
+  address: string;
+  tokenMint: string;
   sellerRewardPayoutBasisPoints: number;
   payoutNumeral: number;
   mathematicalOperand: PayoutOperation;

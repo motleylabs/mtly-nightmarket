@@ -11,9 +11,13 @@ import {
 } from './lib';
 
 export class NightmarketClient {
-  public config: Config;
+  private config: Config;
 
-  constructor(endpoint: string) {
+  /**
+   * 
+   * @param endpoint - A string param for the solana RPC endpoint 
+   */
+  constructor(endpoint?: string) {
     this.config = defaultConfig;
     if (!!endpoint) {
       this.config.connection = new Connection(endpoint);
@@ -44,7 +48,7 @@ export class NightmarketClient {
         budgetIxNeeded,
       });
       const lookupTableAccount = await this.config.connection
-        .getAddressLookupTable(this.config.addressLookupTable)
+        .getAddressLookupTable(new PublicKey(this.config.addressLookupTable))
         .then(res => res.value);
 
       return {
@@ -109,7 +113,7 @@ export class NightmarketClient {
         seller,
       });
       const lookupTableAccount = await this.config.connection
-        .getAddressLookupTable(this.config.addressLookupTable)
+        .getAddressLookupTable(new PublicKey(this.config.addressLookupTable))
         .then(res => res.value);
 
       return {
@@ -219,7 +223,7 @@ export class NightmarketClient {
         buyer,
       });
       const lookupTableAccount = await this.config.connection
-        .getAddressLookupTable(this.config.addressLookupTable)
+        .getAddressLookupTable(new PublicKey(this.config.addressLookupTable))
         .then(res => res.value);
 
       return {
@@ -259,7 +263,7 @@ export class NightmarketClient {
         buyer,
       });
       const lookupTableAccount = await this.config.connection
-        .getAddressLookupTable(this.config.addressLookupTable)
+        .getAddressLookupTable(new PublicKey(this.config.addressLookupTable))
         .then(res => res.value);
 
       return {

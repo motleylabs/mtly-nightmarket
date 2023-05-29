@@ -61,7 +61,7 @@ export const getAcceptOfferInstructions = async ({
     throw 'metadata not found';
   }
 
-  const token = auctionHouse.rewardCenter.tokenMint;
+  const token = new PublicKey(auctionHouse.rewardCenter.tokenMint);
   const associatedTokenAccount = getAssociatedTokenAddressSync(mint, seller);
 
   const [buyerTradeState, buyerTradeStateBump] =

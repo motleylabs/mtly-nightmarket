@@ -53,7 +53,7 @@ export const getCreateListingInstructions = async ({
 
   const treasuryMint = new PublicKey(auctionHouse.treasuryMint);
   const metadata = getMetadataAccount(mint);
-  const token = auctionHouse.rewardCenter!.tokenMint;
+  const token = new PublicKey(auctionHouse.rewardCenter!.tokenMint);
   const associatedTokenAccount = getAssociatedTokenAddressSync(mint, seller);
 
   const mintMetadata = await getMetadata(connection, metadata);
