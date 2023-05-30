@@ -24,7 +24,7 @@ export const defaultConfig: Config = {
     sellerFeeBasisPoints: 100,
     treasuryMint: 'So11111111111111111111111111111111111111112',
   },
-  apiEndpoint: 'https://api.nightmarket.io',
+  apiEndpoint: 'https://api.nightmarket.io/api',
   connection: new Connection('https://api.mainnet-beta.solana.com'),
   addressLookupTable: 
     'HQma5N1kPpYiQBMUx4CqDSuUyjCzNHhvRtRz1qTBNtNp',
