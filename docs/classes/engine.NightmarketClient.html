@@ -21,7 +21,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">NightmarketClient</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/b081b23/src/engine/index.ts#L13">engine/index.ts:13</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/62d6159/src/engine/index.ts#L14">engine/index.ts:14</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -43,6 +43,8 @@
 <a href="engine.NightmarketClient.html#CloseOffer" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>Close<wbr/>Offer</span></a>
 <a href="engine.NightmarketClient.html#CreateListing" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>Create<wbr/>Listing</span></a>
 <a href="engine.NightmarketClient.html#CreateOffer" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>Create<wbr/>Offer</span></a>
+<a href="engine.NightmarketClient.html#GetListing" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>Get<wbr/>Listing</span></a>
+<a href="engine.NightmarketClient.html#GetOffers" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>Get<wbr/>Offers</span></a>
 <a href="engine.NightmarketClient.html#UpdateListing" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>Update<wbr/>Listing</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
@@ -61,14 +63,14 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="engine.NightmarketClient.html" class="tsd-signature-type tsd-kind-class">NightmarketClient</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/b081b23/src/engine/index.ts#L20">engine/index.ts:20</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/62d6159/src/engine/index.ts#L21">engine/index.ts:21</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-is-private"><a id="config" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>config</span><a href="#config" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">config</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type ">Config</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/b081b23/src/engine/index.ts#L14">engine/index.ts:14</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/62d6159/src/engine/index.ts#L15">engine/index.ts:15</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member"><a id="AcceptOffer" class="tsd-anchor"></a>
@@ -98,11 +100,14 @@
 <div class="tsd-comment tsd-typography"><p>A public key for buyer</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/types_response.TxRes.html" class="tsd-signature-type tsd-kind-type-alias">TxRes</a><span class="tsd-signature-symbol">&gt;</span></h4><ul>
-<li>Response</li>
+<li>A response of transaction data</li>
 </ul>
+<p>It can be used to construct a versioned transaction like the following.</p>
+<pre><code class="language-ts"><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">nmClient</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-3">NightmarketClient</span><span class="hl-1">(</span><span class="hl-4">&quot;YOUR PRC ENDPOINT&quot;</span><span class="hl-1">);</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">txRes</span><span class="hl-1"> = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">nmClient</span><span class="hl-1">.</span><span class="hl-3">AcceptOffer</span><span class="hl-1">(</span><span class="hl-6">mint</span><span class="hl-1">, </span><span class="hl-6">amount</span><span class="hl-1">, </span><span class="hl-6">seller</span><span class="hl-1">, </span><span class="hl-6">buyer</span><span class="hl-1">);</span><br/><span class="hl-5">if</span><span class="hl-1"> (!!</span><span class="hl-6">txRes</span><span class="hl-1">.</span><span class="hl-6">err</span><span class="hl-1">) {</span><br/><span class="hl-1">   </span><span class="hl-5">throw</span><span class="hl-1"> </span><span class="hl-6">txRes</span><span class="hl-1">.</span><span class="hl-6">err</span><span class="hl-1">;</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> { </span><span class="hl-2">blockhash</span><span class="hl-1"> } = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">connection</span><span class="hl-1">.</span><span class="hl-3">getLatestBlockhash</span><span class="hl-1">();</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">messageV0</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-3">TransactionMessage</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-6">payerKey:</span><span class="hl-1"> </span><span class="hl-6">publicKey</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">recentBlockhash:</span><span class="hl-1"> </span><span class="hl-6">blockhash</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">instructions:</span><span class="hl-1"> </span><span class="hl-6">txRes</span><span class="hl-1">.</span><span class="hl-6">instructions</span><span class="hl-1">,</span><br/><span class="hl-1">}).</span><span class="hl-3">compileToV0Message</span><span class="hl-1">(</span><span class="hl-6">txRes</span><span class="hl-1">.</span><span class="hl-6">ltAccounts</span><span class="hl-1">);</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">transactionV0</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-3">VersionedTransaction</span><span class="hl-1">(</span><span class="hl-6">messageV0</span><span class="hl-1">);</span>
+</code><button>Copy</button></pre>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/b081b23/src/engine/index.ts#L210">engine/index.ts:210</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/62d6159/src/engine/index.ts#L273">engine/index.ts:273</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="BuyListing" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>Buy<wbr/>Listing</span><a href="#BuyListing" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -130,11 +135,11 @@
 <div class="tsd-comment tsd-typography"><p>A public key for buyer</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/types_response.TxRes.html" class="tsd-signature-type tsd-kind-type-alias">TxRes</a><span class="tsd-signature-symbol">&gt;</span></h4><ul>
-<li>Response</li>
+<li>A response of transaction data</li>
 </ul>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/b081b23/src/engine/index.ts#L250">engine/index.ts:250</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/62d6159/src/engine/index.ts#L313">engine/index.ts:313</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="CloseListing" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>Close<wbr/>Listing</span><a href="#CloseListing" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -154,11 +159,11 @@
 <div class="tsd-comment tsd-typography"><p>A public key for the NFT owner</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/types_response.TxRes.html" class="tsd-signature-type tsd-kind-type-alias">TxRes</a><span class="tsd-signature-symbol">&gt;</span></h4><ul>
-<li>Response</li>
+<li>A response of transaction data</li>
 </ul>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/b081b23/src/engine/index.ts#L104">engine/index.ts:104</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/62d6159/src/engine/index.ts#L148">engine/index.ts:148</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="CloseOffer" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>Close<wbr/>Offer</span><a href="#CloseOffer" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -186,11 +191,11 @@
 <div class="tsd-comment tsd-typography"><p>A public key for buyer</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/types_response.TxRes.html" class="tsd-signature-type tsd-kind-type-alias">TxRes</a><span class="tsd-signature-symbol">&gt;</span></h4><ul>
-<li>Response</li>
+<li>A response of transaction data</li>
 </ul>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/b081b23/src/engine/index.ts#L175">engine/index.ts:175</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/62d6159/src/engine/index.ts#L219">engine/index.ts:219</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="CreateListing" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>Create<wbr/>Listing</span><a href="#CreateListing" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -218,11 +223,11 @@
 <div class="tsd-comment tsd-typography"><p>A flag to indicate if the budget instruction is needed</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/types_response.TxRes.html" class="tsd-signature-type tsd-kind-type-alias">TxRes</a><span class="tsd-signature-symbol">&gt;</span></h4><ul>
-<li>Response</li>
+<li>A response of transaction data</li>
 </ul>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/b081b23/src/engine/index.ts#L35">engine/index.ts:35</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/62d6159/src/engine/index.ts#L79">engine/index.ts:79</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="CreateOffer" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>Create<wbr/>Offer</span><a href="#CreateOffer" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -250,11 +255,51 @@
 <div class="tsd-comment tsd-typography"><p>A public key for buyer</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/types_response.TxRes.html" class="tsd-signature-type tsd-kind-type-alias">TxRes</a><span class="tsd-signature-symbol">&gt;</span></h4><ul>
-<li>Response</li>
+<li>A response of transaction data</li>
 </ul>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/b081b23/src/engine/index.ts#L140">engine/index.ts:140</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/62d6159/src/engine/index.ts#L184">engine/index.ts:184</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="GetListing" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>Get<wbr/>Listing</span><a href="#GetListing" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="GetListing.GetListing-1"><span class="tsd-kind-call-signature">Get<wbr/>Listing</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">mint</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="../types/types_response.Listing.html" class="tsd-signature-type tsd-kind-type-alias">Listing</a><span class="tsd-signature-symbol">&gt;</span><a href="#GetListing.GetListing-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Gets a listing information for NFT</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">mint</span>: <span class="tsd-signature-type ">PublicKey</span></h5>
+<div class="tsd-comment tsd-typography"><p>A public key of the NFT</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="../types/types_response.Listing.html" class="tsd-signature-type tsd-kind-type-alias">Listing</a><span class="tsd-signature-symbol">&gt;</span></h4><ul>
+<li>A listing data</li>
+</ul>
+<aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/62d6159/src/engine/index.ts#L33">engine/index.ts:33</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="GetOffers" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>Get<wbr/>Offers</span><a href="#GetOffers" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="GetOffers.GetOffers-1"><span class="tsd-kind-call-signature">Get<wbr/>Offers</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">mint</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/types_response.Offer.html" class="tsd-signature-type tsd-kind-type-alias">Offer</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#GetOffers.GetOffers-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Gets the offers for NFT</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">mint</span>: <span class="tsd-signature-type ">PublicKey</span></h5>
+<div class="tsd-comment tsd-typography"><p>A public key of the NFT</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/types_response.Offer.html" class="tsd-signature-type tsd-kind-type-alias">Offer</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><ul>
+<li>A list of NFT offers</li>
+</ul>
+<aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/62d6159/src/engine/index.ts#L54">engine/index.ts:54</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="UpdateListing" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>Update<wbr/>Listing</span><a href="#UpdateListing" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -278,11 +323,11 @@
 <div class="tsd-comment tsd-typography"><p>A public key for the NFT owner</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/types_response.TxRes.html" class="tsd-signature-type tsd-kind-type-alias">TxRes</a><span class="tsd-signature-symbol">&gt;</span></h4><ul>
-<li>Response</li>
+<li>A response of transaction data</li>
 </ul>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/b081b23/src/engine/index.ts#L74">engine/index.ts:74</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/62d6159/src/engine/index.ts#L118">engine/index.ts:118</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -310,6 +355,8 @@
 <li><a href="#CloseOffer" class=""><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>Close<wbr/>Offer</span></a></li>
 <li><a href="#CreateListing" class=""><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>Create<wbr/>Listing</span></a></li>
 <li><a href="#CreateOffer" class=""><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>Create<wbr/>Offer</span></a></li>
+<li><a href="#GetListing" class=""><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>Get<wbr/>Listing</span></a></li>
+<li><a href="#GetOffers" class=""><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>Get<wbr/>Offers</span></a></li>
 <li><a href="#UpdateListing" class=""><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>Update<wbr/>Listing</span></a></li></ul></div></details></div>
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="../index.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-namespace)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-4-path"></rect><path d="M9.33 16V7.24H10.77L13.446 14.74C13.43 14.54 13.41 14.296 13.386 14.008C13.37 13.712 13.354 13.404 13.338 13.084C13.33 12.756 13.326 12.448 13.326 12.16V7.24H14.37V16H12.93L10.266 8.5C10.282 8.692 10.298 8.936 10.314 9.232C10.33 9.52 10.342 9.828 10.35 10.156C10.366 10.476 10.374 10.784 10.374 11.08V16H9.33Z" fill="var(--color-text)" id="icon-4-text"></path></svg><span>@motleylabs/mtly-<wbr/>nightmarket</span></a>
@@ -323,7 +370,9 @@
 <details class="tsd-index-accordion" data-key="types/response"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg><a href="../modules/types_response.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4-path"></use><use href="#icon-4-text"></use></svg><span>types/response</span></a></summary>
 <div class="tsd-accordion-details">
 <ul class="tsd-nested-navigation">
-<li><a href="../types/types_response.TxRes.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-type-alias)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-4194304-path"></rect><path d="M11.31 16V8.224H8.91V7.24H14.79V8.224H12.39V16H11.31Z" fill="var(--color-text)" id="icon-4194304-text"></path></svg><span>Tx<wbr/>Res</span></a></li></ul></div></details></li></ul></nav></div></div></div>
+<li><a href="../types/types_response.Listing.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-type-alias)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-4194304-path"></rect><path d="M11.31 16V8.224H8.91V7.24H14.79V8.224H12.39V16H11.31Z" fill="var(--color-text)" id="icon-4194304-text"></path></svg><span>Listing</span></a></li>
+<li><a href="../types/types_response.Offer.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Offer</span></a></li>
+<li><a href="../types/types_response.TxRes.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Tx<wbr/>Res</span></a></li></ul></div></details></li></ul></nav></div></div></div>
 <div class="tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
 <div class="overlay"></div></body></html>

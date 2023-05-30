@@ -28,7 +28,7 @@ export class NightmarketClient {
   /**
    * Gets a listing information for NFT
    * @param mint - A public key of the NFT
-   * @returns {Listing | null} - Response
+   * @returns {Listing | null} - A listing data
    */
   public async GetListing(
     mint: PublicKey
@@ -49,7 +49,7 @@ export class NightmarketClient {
   /**
    * Gets the offers for NFT
    * @param mint - A public key of the NFT
-   * @returns {Offer[]} - Response
+   * @returns {Offer[]} - A list of NFT offers
    */
     public async GetOffers(
       mint: PublicKey
@@ -74,7 +74,7 @@ export class NightmarketClient {
    * @param amount - A SOL price of listing
    * @param seller - A public key for the NFT owner
    * @param budgetIxNeeded - A flag to indicate if the budget instruction is needed
-   * @returns {TxRes} - Response
+   * @returns {TxRes} - A response of transaction data
    */
   public async CreateListing(
     mint: PublicKey,
@@ -113,7 +113,7 @@ export class NightmarketClient {
    * @param mint - A public key for the listed NFT
    * @param amount - A SOL price of listing
    * @param seller - A public key for the NFT owner
-   * @returns {TxRes} - Response
+   * @returns {TxRes} - A response of transaction data
    */
   public async UpdateListing(
     mint: PublicKey,
@@ -143,7 +143,7 @@ export class NightmarketClient {
    * Closes a listing for NFT
    * @param mint - A public key for the listed NFT
    * @param seller - A public key for the NFT owner
-   * @returns {TxRes} - Response
+   * @returns {TxRes} - A response of transaction data
    */
   public async CloseListing(
     mint: PublicKey,
@@ -179,7 +179,7 @@ export class NightmarketClient {
    * @param amount - A SOL price of offer
    * @param seller - A public key for the NFT owner
    * @param buyer - A public key for buyer
-   * @returns {TxRes} - Response
+   * @returns {TxRes} - A response of transaction data
    */
   public async CreateOffer(
     mint: PublicKey,
@@ -214,7 +214,7 @@ export class NightmarketClient {
    * @param amount - A SOL price of offer
    * @param seller - A public key for the NFT owner
    * @param buyer - A public key for buyer
-   * @returns {TxRes} - Response
+   * @returns {TxRes} - A response of transaction data
    */
   public async CloseOffer(
     mint: PublicKey,
@@ -249,7 +249,26 @@ export class NightmarketClient {
    * @param amount - A SOL price of offer
    * @param seller - A public key for the NFT owner
    * @param buyer - A public key for buyer
-   * @returns {TxRes} - Response
+   * @returns {TxRes} - A response of transaction data
+   * 
+   * It can be used to construct a versioned transaction like the following.
+   * ```ts
+   * const nmClient = new NightmarketClient("YOUR PRC ENDPOINT");
+   * 
+   * const txRes = await nmClient.AcceptOffer(mint, amount, seller, buyer);
+   * if (!!txRes.err) {
+   *    throw txRes.err;
+   * }
+   * 
+   * const { blockhash } = await connection.getLatestBlockhash();
+   * const messageV0 = new TransactionMessage({
+   *   payerKey: publicKey,
+   *   recentBlockhash: blockhash,
+   *   instructions: txRes.instructions,
+   * }).compileToV0Message(txRes.ltAccounts);
+   * 
+   * const transactionV0 = new VersionedTransaction(messageV0);
+   * ```
    */
   public async AcceptOffer(
     mint: PublicKey,
@@ -289,7 +308,7 @@ export class NightmarketClient {
    * @param amount - A SOL price of offer
    * @param seller - A public key for the NFT owner
    * @param buyer - A public key for buyer
-   * @returns {TxRes} - Response
+   * @returns {TxRes} - A response of transaction data
    */
   public async BuyListing(
     mint: PublicKey,
