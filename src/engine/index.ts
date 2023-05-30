@@ -1,4 +1,4 @@
-import { Connection, PublicKey } from '@solana/web3.js';
+import { Connection, LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import { Config, Listing, Offer, TxRes, defaultConfig } from '../types';
 import {
   getCloseListingInstructions,
@@ -35,7 +35,12 @@ export class NightmarketClient {
   ): Promise<Listing | null> {
     try {
       const { data: { latestListing: listing } } = await axios.get(`${this.config.apiEndpoint}/nfts/${mint.toBase58()}`);
-      return listing as (Listing | null);
+      return {
+        seller: listing.userAddress,
+        price: Number(listing.price) / LAMPORTS_PER_SOL,
+        signature: listing.signature,
+        blockTimestamp: listing.blockTimestamp
+      };
     } catch(_) {
       return null;
     }
@@ -51,7 +56,13 @@ export class NightmarketClient {
     ): Promise<Offer[]> {
       try {
         const { data } = await axios.get(`${this.config.apiEndpoint}/nfts/offers?address=${mint.toBase58()}`);
-        return data as Offer[];
+        return data.map((item: any) => ({
+          buyer: item.buyer,
+          seller: item.seller,
+          price: Number(item.price) / LAMPORTS_PER_SOL,
+          signature: item.signature,
+          blockTimestamp: item.blockTimestamp
+        }))
       } catch(_) {
         return [];
       }

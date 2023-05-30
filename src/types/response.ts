@@ -21,9 +21,13 @@ export type TxRes = {
  * NFT listing information
  */
 export type Listing = {
-  userAddress: string;
-  price: string;
+  /** seller address */
+  seller: string;
+  /** SOL price */
+  price: number;
+  /** signature of the listing transaction */
   signature: string;
+  /** timestamp of the listing */
   blockTimestamp: number;
 };
 
@@ -31,9 +35,14 @@ export type Listing = {
  * NFT offer information
  */
 export type Offer = {
+  /** buyer address */
   buyer: string;
-  blockTimestamp: number;
-  price: string;
+  /** seller address */
   seller: string | null;
+  /** SOL price */
+  price: number;
+  /** signature of the offer transaction */
   signature: string;
+  /** timestamp of the offer */
+  blockTimestamp: number;
 }
