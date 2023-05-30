@@ -25,6 +25,15 @@ export type Listing = {
   price: string;
   signature: string;
   blockTimestamp: number;
-  auctionHouseProgram: string;
-  auctionHouseAddress: string;
 };
+
+/**
+ * NFT offer information
+ */
+export type Offer = {
+  buyer: string;
+  blockTimestamp: number;
+  price: string;
+  seller: string | null;
+  signature: string;
+}

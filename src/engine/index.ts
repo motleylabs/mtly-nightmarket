@@ -1,5 +1,5 @@
 import { Connection, PublicKey } from '@solana/web3.js';
-import { Config, Listing, TxRes, defaultConfig } from '../types';
+import { Config, Listing, Offer, TxRes, defaultConfig } from '../types';
 import {
   getCloseListingInstructions,
   getCreateListingInstructions,
@@ -40,6 +40,22 @@ export class NightmarketClient {
       return null;
     }
   }
+
+  /**
+   * Gets the offers for NFT
+   * @param mint - A public key of the NFT
+   * @returns {Offer[]} - Response
+   */
+    public async GetOffers(
+      mint: PublicKey
+    ): Promise<Offer[]> {
+      try {
+        const { data } = await axios.get(`${this.config.apiEndpoint}/nfts/offers?address=${mint.toBase58()}`);
+        return data as Offer[];
+      } catch(_) {
+        return [];
+      }
+    }
 
   /**
    * Creates a listing for NFT
