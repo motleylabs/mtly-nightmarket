@@ -1,5 +1,5 @@
 import { Connection, PublicKey } from '@solana/web3.js';
-import { Config, TxRes, defaultConfig } from '../types';
+import { Config, Listing, TxRes, defaultConfig } from '../types';
 import {
   getCloseListingInstructions,
   getCreateListingInstructions,
@@ -9,6 +9,7 @@ import {
   getAcceptOfferInstructions,
   getBuyListingInstructions,
 } from './lib';
+import axios from 'axios';
 
 export class NightmarketClient {
   private config: Config;
@@ -21,6 +22,21 @@ export class NightmarketClient {
     this.config = defaultConfig;
     if (!!endpoint) {
       this.config.connection = new Connection(endpoint);
+    }
+  }
+
+  /**
+   * Gets a listing information for NFT
+   * 
+   */
+  public async GetListing(
+    mint: PublicKey
+  ): Promise<Listing | null> {
+    try {
+      const { data: { latestListing: listing } } = await axios.get(`${this.config.apiEndpoint}/nfts/${mint.toBase58()}`);
+      return listing;
+    } catch(_) {
+      return null;
     }
   }
 

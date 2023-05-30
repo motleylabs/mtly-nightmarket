@@ -3,6 +3,7 @@ import { AuctionHouse } from './auctionHouse';
 
 export type Config = {
   auctionHouse: AuctionHouse;
+  apiEndpoint: string;
   connection: Connection;
   addressLookupTable: string;
 };
@@ -23,6 +24,7 @@ export const defaultConfig: Config = {
     sellerFeeBasisPoints: 100,
     treasuryMint: 'So11111111111111111111111111111111111111112',
   },
+  apiEndpoint: 'https://api.nightmarket.io',
   connection: new Connection('https://api.mainnet-beta.solana.com'),
   addressLookupTable: 
     'HQma5N1kPpYiQBMUx4CqDSuUyjCzNHhvRtRz1qTBNtNp',

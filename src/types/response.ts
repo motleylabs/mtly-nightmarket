@@ -16,3 +16,15 @@ export type TxRes = {
   /** a list of the address look-up table accounts */
   ltAccounts?: AddressLookupTableAccount[];
 };
+
+/**
+ * NFT listing information
+ */
+export type Listing = {
+  userAddress: string;
+  price: string;
+  signature: string;
+  blockTimestamp: number;
+  auctionHouseProgram: string;
+  auctionHouseAddress: string;
+};
