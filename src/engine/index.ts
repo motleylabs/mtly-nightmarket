@@ -27,7 +27,8 @@ export class NightmarketClient {
 
   /**
    * Gets a listing information for NFT
-   * 
+   * @param mint - A public key of the NFT
+   * @returns {Listing | null} - Response
    */
   public async GetListing(
     mint: PublicKey
