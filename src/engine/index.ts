@@ -31,12 +31,12 @@ export class NightmarketClient {
    */
   public async GetListing(
     mint: PublicKey
-  ): Promise<Listing | null> {
+  ): Promise<Listing | Error> {
     try {
       const { data: { latestListing: listing } } = await axios.get(`${this.config.apiEndpoint}/nfts/${mint.toBase58()}`);
       return listing;
-    } catch(_) {
-      return null;
+    } catch(e) {
+      return e;
     }
   }
 
