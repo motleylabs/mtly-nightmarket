@@ -1,35 +1,26 @@
 import {
+  Metadata,
+  PROGRAM_ID as TOKEN_METADATA_PROGRAM_ID,
+} from '@metaplex-foundation/mpl-token-metadata';
+import { getAssociatedTokenAddressSync } from '@solana/spl-token';
+import {
   AccountMeta,
   Connection,
   PublicKey,
   SYSVAR_INSTRUCTIONS_PUBKEY,
   SystemProgram,
 } from '@solana/web3.js';
-import {
-  Metadata,
-  PROGRAM_ID as TOKEN_METADATA_PROGRAM_ID,
-} from '@metaplex-foundation/mpl-token-metadata';
-import { getAssociatedTokenAddressSync } from '@solana/spl-token';
 
-const TOKEN_AUTH_RULES_ID = new PublicKey(
-  'auth9SigNpDKz4sJJ1DfCTuZrZNSAgh9sFD3rboVmgg',
-);
+const TOKEN_AUTH_RULES_ID = new PublicKey('auth9SigNpDKz4sJJ1DfCTuZrZNSAgh9sFD3rboVmgg');
 
 export const getMetadataAccount = (mint: PublicKey): PublicKey => {
   return PublicKey.findProgramAddressSync(
-    [
-      Buffer.from('metadata', 'utf8'),
-      TOKEN_METADATA_PROGRAM_ID.toBuffer(),
-      mint.toBuffer(),
-    ],
-    TOKEN_METADATA_PROGRAM_ID,
+    [Buffer.from('metadata', 'utf8'), TOKEN_METADATA_PROGRAM_ID.toBuffer(), mint.toBuffer()],
+    TOKEN_METADATA_PROGRAM_ID
   )[0];
 };
 
-export function findTokenRecordPda(
-  mint: PublicKey,
-  token: PublicKey,
-): PublicKey {
+export function findTokenRecordPda(mint: PublicKey, token: PublicKey): PublicKey {
   return PublicKey.findProgramAddressSync(
     [
       Buffer.from('metadata'),
@@ -38,7 +29,7 @@ export function findTokenRecordPda(
       Buffer.from('token_record'),
       token.toBuffer(),
     ],
-    TOKEN_METADATA_PROGRAM_ID,
+    TOKEN_METADATA_PROGRAM_ID
   )[0];
 }
 
@@ -64,7 +55,7 @@ export const getMasterEditionAccount = (mint: PublicKey): PublicKey => {
       mint.toBuffer(),
       Buffer.from('edition', 'utf8'),
     ],
-    TOKEN_METADATA_PROGRAM_ID,
+    TOKEN_METADATA_PROGRAM_ID
   )[0];
 };
 
@@ -73,21 +64,14 @@ export const getPNFTAccounts = async (
   wallet: PublicKey,
   programAsSigner: PublicKey,
   mint: PublicKey,
-  seller?: PublicKey,
+  seller?: PublicKey
 ): Promise<PNFTAccounts> => {
-  const metadata = await Metadata.fromAccountAddress(
-    connection,
-    getMetadataAccount(mint),
-  );
+  const metadata = await Metadata.fromAccountAddress(connection, getMetadataAccount(mint));
   const ata = getAssociatedTokenAddressSync(mint, wallet);
   const tokenRecord = findTokenRecordPda(mint, ata);
   const masterEdition = getMasterEditionAccount(mint);
   const authRules = metadata.programmableConfig?.ruleSet;
-  const pasAssociatedTokenAccount = getAssociatedTokenAddressSync(
-    mint,
-    programAsSigner,
-    true,
-  );
+  const pasAssociatedTokenAccount = getAssociatedTokenAddressSync(mint, programAsSigner, true);
   const delegateRecord = findTokenRecordPda(mint, pasAssociatedTokenAccount);
   let sellerTokenRecord = TOKEN_METADATA_PROGRAM_ID;
 

@@ -16,16 +16,16 @@ import {
 export const getUpdateListingInstructions = ({
   auctionHouse,
   mint,
-  amount,
+  price,
   seller,
 }: {
   auctionHouse: AuctionHouse;
   mint: PublicKey;
-  amount: number;
+  price: number;
   seller: PublicKey;
 }): TransactionInstruction[] => {
   const auctionHouseAddress = new PublicKey(auctionHouse.address);
-  const buyerPrice = toLamports(amount);
+  const buyerPrice = toLamports(price);
   const metadata = getMetadataAccount(mint);
 
   const associatedTokenAccount = getAssociatedTokenAddressSync(mint, seller);

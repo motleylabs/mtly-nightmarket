@@ -1,4 +1,5 @@
 import { Connection } from '@solana/web3.js';
+
 import { AuctionHouse } from './auctionHouse';
 
 export type Config = {
@@ -26,6 +27,5 @@ export const defaultConfig: Config = {
   },
   apiEndpoint: 'https://api.nightmarket.io/api',
   connection: new Connection('https://api.mainnet-beta.solana.com'),
-  addressLookupTable: 
-    'HQma5N1kPpYiQBMUx4CqDSuUyjCzNHhvRtRz1qTBNtNp',
+  addressLookupTable: 'HQma5N1kPpYiQBMUx4CqDSuUyjCzNHhvRtRz1qTBNtNp',
 };

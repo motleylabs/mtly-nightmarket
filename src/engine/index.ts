@@ -1,22 +1,24 @@
 import { Connection, LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
-import { Config, Listing, Offer, TxRes, defaultConfig } from '../types';
+
+import axios from 'axios';
+
+import { Action, Config, Listing, Offer, defaultConfig } from '../types';
 import {
-  getCloseListingInstructions,
-  getCreateListingInstructions,
-  getUpdateListingInstructions,
-  getCreateOfferInstructions,
-  getCloseOfferInstructions,
   getAcceptOfferInstructions,
   getBuyListingInstructions,
+  getCloseListingInstructions,
+  getCloseOfferInstructions,
+  getCreateListingInstructions,
+  getCreateOfferInstructions,
+  getUpdateListingInstructions,
 } from './lib';
-import axios from 'axios';
 
 export class NightmarketClient {
   private config: Config;
 
   /**
-   * 
-   * @param endpoint - A string param for the solana RPC endpoint 
+   *
+   * @param endpoint - Solana RPC endpoint URL
    */
   constructor(endpoint?: string) {
     this.config = defaultConfig;
@@ -26,78 +28,76 @@ export class NightmarketClient {
   }
 
   /**
-   * Gets a listing information for NFT
-   * @param mint - A public key of the NFT
-   * @returns {Listing | null} - A listing data
+   * Get the listing details for a NFT
+   * @param mint - Public key of the NFT
+   * @returns {Listing | null} - NFT listing details
    */
-  public async GetListing(
-    mint: PublicKey
-  ): Promise<Listing | null> {
+  public async GetListing(mint: PublicKey): Promise<Listing | null> {
     try {
-      const { data: { latestListing: listing } } = await axios.get(`${this.config.apiEndpoint}/nfts/${mint.toBase58()}`);
+      const {
+        data: { latestListing: listing },
+      } = await axios.get(`${this.config.apiEndpoint}/nfts/${mint.toBase58()}`);
       return {
         seller: listing.userAddress,
         price: Number(listing.price) / LAMPORTS_PER_SOL,
         signature: listing.signature,
-        blockTimestamp: listing.blockTimestamp
+        blockTimestamp: listing.blockTimestamp,
+        auctionHouseProgram: listing.auctionHouseProgram,
+        auctionHouseAddress: listing.auctionHouseAddress,
       };
-    } catch(_) {
+    } catch (_) {
       return null;
     }
   }
 
   /**
-   * Gets the offers for NFT
-   * @param mint - A public key of the NFT
+   * Get offers for a NFT
+   * @param mint - Public key of the NFT
    * @returns {Offer[]} - A list of NFT offers
    */
-    public async GetOffers(
-      mint: PublicKey
-    ): Promise<Offer[]> {
-      try {
-        const { data } = await axios.get(`${this.config.apiEndpoint}/nfts/offers?address=${mint.toBase58()}`);
-        return data.map((item: any) => ({
-          buyer: item.buyer,
-          seller: item.seller,
-          price: Number(item.price) / LAMPORTS_PER_SOL,
-          signature: item.signature,
-          blockTimestamp: item.blockTimestamp
-        }))
-      } catch(_) {
-        return [];
-      }
+  public async GetOffers(mint: PublicKey): Promise<Offer[]> {
+    try {
+      const { data } = await axios.get(
+        `${this.config.apiEndpoint}/nfts/offers?address=${mint.toBase58()}`
+      );
+      return data.map((item: any) => ({
+        buyer: item.buyer,
+        seller: item.seller,
+        price: Number(item.price) / LAMPORTS_PER_SOL,
+        signature: item.signature,
+        blockTimestamp: item.blockTimestamp,
+        auctionHouseProgram: item.martketplaceProgramAddress,
+        auctionHouseAddress: item.auctionHouseAddress,
+      }));
+    } catch (_) {
+      return [];
     }
+  }
 
   /**
-   * Creates a listing for NFT
-   * @param mint - A public key for the listed NFT
-   * @param amount - A SOL price of listing
-   * @param seller - A public key for the NFT owner
-   * @param budgetIxNeeded - A flag to indicate if the budget instruction is needed
-   * @returns {TxRes} - A response of transaction data
+   * Create a listing for a NFT
+   * @param mint - Public key for the NFT to list
+   * @param price - SOL price of listing
+   * @param seller - Public key for the seller
+   * @returns {Action} - Night Market action object
    */
-  public async CreateListing(
-    mint: PublicKey,
-    amount: number,
-    seller: PublicKey,
-    budgetIxNeeded = true,
-  ): Promise<TxRes> {
+  public async CreateListing(mint: PublicKey, price: number, seller: PublicKey): Promise<Action> {
     try {
       const ixs = await getCreateListingInstructions({
         connection: this.config.connection,
         auctionHouse: this.config.auctionHouse,
         mint,
-        amount,
+        price,
         seller,
-        budgetIxNeeded,
       });
+
       const lookupTableAccount = await this.config.connection
         .getAddressLookupTable(new PublicKey(this.config.addressLookupTable))
-        .then(res => res.value);
+        .then((res) => res.value);
 
       return {
         instructions: ixs,
-        ltAccounts: !!lookupTableAccount ? [lookupTableAccount] : undefined,
+        altAccounts: !!lookupTableAccount ? [lookupTableAccount] : undefined,
         err: null,
       };
     } catch (e) {
@@ -109,24 +109,21 @@ export class NightmarketClient {
   }
 
   /**
-   * Updates a listing for NFT
-   * @param mint - A public key for the listed NFT
-   * @param amount - A SOL price of listing
-   * @param seller - A public key for the NFT owner
-   * @returns {TxRes} - A response of transaction data
+   * Update a listing for a NFT
+   * @param mint - Public key for the listed NFT
+   * @param price - Updated SOL price of the NFT
+   * @param seller - Public key for the seller
+   * @returns {Action} - Night Market action object
    */
-  public async UpdateListing(
-    mint: PublicKey,
-    amount: number,
-    seller: PublicKey,
-  ): Promise<TxRes> {
+  public async UpdateListing(mint: PublicKey, price: number, seller: PublicKey): Promise<Action> {
     try {
       const ixs = getUpdateListingInstructions({
         auctionHouse: this.config.auctionHouse,
         mint,
-        amount,
+        price,
         seller,
       });
+
       return {
         instructions: ixs,
         err: null,
@@ -140,15 +137,12 @@ export class NightmarketClient {
   }
 
   /**
-   * Closes a listing for NFT
-   * @param mint - A public key for the listed NFT
-   * @param seller - A public key for the NFT owner
-   * @returns {TxRes} - A response of transaction data
+   * Close a listing for a NFT
+   * @param mint - Public key for the listed NFT
+   * @param seller - Public key for the seller
+   * @returns {Action} - Night Market action object
    */
-  public async CloseListing(
-    mint: PublicKey,
-    seller: PublicKey,
-  ): Promise<TxRes> {
+  public async CloseListing(mint: PublicKey, seller: PublicKey): Promise<Action> {
     try {
       const ixs = await getCloseListingInstructions({
         connection: this.config.connection,
@@ -156,13 +150,14 @@ export class NightmarketClient {
         mint,
         seller,
       });
+
       const lookupTableAccount = await this.config.connection
         .getAddressLookupTable(new PublicKey(this.config.addressLookupTable))
-        .then(res => res.value);
+        .then((res) => res.value);
 
       return {
         instructions: ixs,
-        ltAccounts: !!lookupTableAccount ? [lookupTableAccount] : undefined,
+        altAccounts: !!lookupTableAccount ? [lookupTableAccount] : undefined,
         err: null,
       };
     } catch (e) {
@@ -174,28 +169,29 @@ export class NightmarketClient {
   }
 
   /**
-   * Creates an offer for buying a listed NFT
-   * @param mint - A public key for the listed NFT
-   * @param amount - A SOL price of offer
-   * @param seller - A public key for the NFT owner
-   * @param buyer - A public key for buyer
-   * @returns {TxRes} - A response of transaction data
+   * Create an offer for buying a NFT
+   * @param mint - Public key for the NFT
+   * @param price - SOL price of the offer
+   * @param seller - Public key for the NFT owner
+   * @param buyer - Public key for the buyer
+   * @returns {Action} - Night Market action object
    */
   public async CreateOffer(
     mint: PublicKey,
-    amount: number,
+    price: number,
     seller: PublicKey,
-    buyer: PublicKey,
-  ): Promise<TxRes> {
+    buyer: PublicKey
+  ): Promise<Action> {
     try {
       const ixs = await getCreateOfferInstructions({
         connection: this.config.connection,
         auctionHouse: this.config.auctionHouse,
         mint,
-        amount,
+        price,
         seller,
         buyer,
       });
+
       return {
         instructions: ixs,
         err: null,
@@ -209,28 +205,29 @@ export class NightmarketClient {
   }
 
   /**
-   * Closes an offer
-   * @param mint - A public key for the listed NFT
-   * @param amount - A SOL price of offer
-   * @param seller - A public key for the NFT owner
-   * @param buyer - A public key for buyer
-   * @returns {TxRes} - A response of transaction data
+   * Close an offer
+   * @param mint - Public key for the NFT
+   * @param price - SOL price of offer
+   * @param seller - Public key for the seller
+   * @param buyer - Public key for the buyer
+   * @returns {Action} - Night Market action object
    */
   public async CloseOffer(
     mint: PublicKey,
-    amount: number,
+    price: number,
     seller: PublicKey,
-    buyer: PublicKey,
-  ): Promise<TxRes> {
+    buyer: PublicKey
+  ): Promise<Action> {
     try {
       const ixs = await getCloseOfferInstructions({
         connection: this.config.connection,
         auctionHouse: this.config.auctionHouse,
         mint,
-        amount,
+        price,
         seller,
         buyer,
       });
+
       return {
         instructions: ixs,
         err: null,
@@ -245,53 +242,54 @@ export class NightmarketClient {
 
   /**
    * Accept an offer
-   * @param mint - A public key for the listed NFT
-   * @param amount - A SOL price of offer
-   * @param seller - A public key for the NFT owner
-   * @param buyer - A public key for buyer
-   * @returns {TxRes} - A response of transaction data
-   * 
-   * It can be used to construct a versioned transaction like the following.
+   * @param mint - Public key for the listed NFT
+   * @param price - SOL price for offer
+   * @param seller - Public key for the seller
+   * @param buyer - Public key for the buyer
+   * @returns {Action} - Night Market action object
+   *
+   * This function can be used to construct a versioned transaction like the following.
    * ```ts
-   * const nmClient = new NightmarketClient("YOUR PRC ENDPOINT");
-   * 
-   * const txRes = await nmClient.AcceptOffer(mint, amount, seller, buyer);
-   * if (!!txRes.err) {
-   *    throw txRes.err;
+   * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
+   *
+   * const acceptAction = await nmClient.AcceptOffer(mint, price, seller, buyer);
+   * if (!!acceptAction.err) {
+   *    throw acceptAction.err;
    * }
-   * 
+   *
    * const { blockhash } = await connection.getLatestBlockhash();
    * const messageV0 = new TransactionMessage({
    *   payerKey: publicKey,
    *   recentBlockhash: blockhash,
-   *   instructions: txRes.instructions,
-   * }).compileToV0Message(txRes.ltAccounts);
-   * 
+   *   instructions: acceptAction.instructions,
+   * }).compileToV0Message(acceptAction.altAccounts);
+   *
    * const transactionV0 = new VersionedTransaction(messageV0);
    * ```
    */
   public async AcceptOffer(
     mint: PublicKey,
-    amount: number,
+    price: number,
     seller: PublicKey,
-    buyer: PublicKey,
-  ): Promise<TxRes> {
+    buyer: PublicKey
+  ): Promise<Action> {
     try {
       const ixs = await getAcceptOfferInstructions({
         connection: this.config.connection,
         auctionHouse: this.config.auctionHouse,
         mint,
-        amount,
+        price,
         seller,
         buyer,
       });
+
       const lookupTableAccount = await this.config.connection
         .getAddressLookupTable(new PublicKey(this.config.addressLookupTable))
-        .then(res => res.value);
+        .then((res) => res.value);
 
       return {
         instructions: ixs,
-        ltAccounts: !!lookupTableAccount ? [lookupTableAccount] : undefined,
+        altAccounts: !!lookupTableAccount ? [lookupTableAccount] : undefined,
         err: null,
       };
     } catch (e) {
@@ -303,35 +301,37 @@ export class NightmarketClient {
   }
 
   /**
-   * Buys an listing
-   * @param mint - A public key for the listed NFT
-   * @param amount - A SOL price of offer
-   * @param seller - A public key for the NFT owner
-   * @param buyer - A public key for buyer
-   * @returns {TxRes} - A response of transaction data
+   * Buy a NFT via listing.
+   * Currently only support Night Market listings.
+   * @param mint - Public key for the listed NFT
+   * @param price - SOL price of the listing
+   * @param seller - Public key for the seller
+   * @param buyer - Public key for the buyer
+   * @returns {Action} - Night Market action object
    */
   public async BuyListing(
     mint: PublicKey,
-    amount: number,
+    price: number,
     seller: PublicKey,
-    buyer: PublicKey,
-  ): Promise<TxRes> {
+    buyer: PublicKey
+  ): Promise<Action> {
     try {
       const ixs = await getBuyListingInstructions({
         connection: this.config.connection,
         auctionHouse: this.config.auctionHouse,
         mint,
-        amount,
+        price,
         seller,
         buyer,
       });
+
       const lookupTableAccount = await this.config.connection
         .getAddressLookupTable(new PublicKey(this.config.addressLookupTable))
-        .then(res => res.value);
+        .then((res) => res.value);
 
       return {
         instructions: ixs,
-        ltAccounts: !!lookupTableAccount ? [lookupTableAccount] : undefined,
+        altAccounts: !!lookupTableAccount ? [lookupTableAccount] : undefined,
         err: null,
       };
     } catch (e) {

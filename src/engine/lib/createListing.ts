@@ -29,23 +29,21 @@ export const getCreateListingInstructions = async ({
   connection,
   auctionHouse,
   mint,
-  amount,
+  price,
   seller,
-  budgetIxNeeded = true,
 }: {
   connection: Connection;
   auctionHouse: AuctionHouse;
   mint: PublicKey;
-  amount: number;
+  price: number;
   seller: PublicKey;
-  budgetIxNeeded: boolean;
 }): Promise<TransactionInstruction[]> => {
   if (!auctionHouse.rewardCenter) {
     throw 'reward center data not found';
   }
 
   const auctionHouseAddress = new PublicKey(auctionHouse.address);
-  const buyerPrice = toLamports(amount);
+  const buyerPrice = toLamports(price);
   const authority = new PublicKey(auctionHouse.authority);
   const auctionHouseFeeAccount = new PublicKey(
     auctionHouse.auctionHouseFeeAccount,
@@ -166,14 +164,12 @@ export const getCreateListingInstructions = async ({
 
   ixs.push(sellerATAInstruction, instruction);
 
-  if (budgetIxNeeded) {
-    const culIx = ComputeBudgetProgram.setComputeUnitLimit({ units: 600000 });
-    ixs.push(culIx);
-    const cupIx = ComputeBudgetProgram.setComputeUnitPrice({
-      microLamports: 1000,
-    });
-    ixs.push(cupIx);
-  }
+  const culIx = ComputeBudgetProgram.setComputeUnitLimit({ units: 600000 });
+  ixs.push(culIx);
+  const cupIx = ComputeBudgetProgram.setComputeUnitPrice({
+    microLamports: 1000,
+  });
+  ixs.push(cupIx);
 
   return ixs;
 };

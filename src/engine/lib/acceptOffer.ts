@@ -31,14 +31,14 @@ export const getAcceptOfferInstructions = async ({
   connection,
   auctionHouse,
   mint,
-  amount,
+  price,
   seller,
   buyer,
 }: {
   connection: Connection;
   auctionHouse: AuctionHouse;
   mint: PublicKey;
-  amount: number;
+  price: number;
   seller: PublicKey;
   buyer: PublicKey;
 }): Promise<TransactionInstruction[]> => {
@@ -47,7 +47,7 @@ export const getAcceptOfferInstructions = async ({
   }
 
   const auctionHouseAddress = new PublicKey(auctionHouse.address);
-  const buyerPrice = toLamports(amount);
+  const buyerPrice = toLamports(price);
   const authority = new PublicKey(auctionHouse.authority);
   const auctionHouseFeeAccount = new PublicKey(
     auctionHouse.auctionHouseFeeAccount,

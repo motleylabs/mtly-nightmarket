@@ -14,7 +14,8 @@
   ],
   "scripts": {
     "build": "tsc",
-    "format": "prettier --write --ignore-path .gitignore ."
+    "docs": "typedoc --treatWarningsAsErrors",
+    "format": "prettier --write --ignore-path .gitignore **/*.ts **/**/*.ts"
   },
   "publishConfig": {
     "access": "public",
@@ -23,6 +24,7 @@
   "repository": "https://github.com/motleylabs/mtly-nightmarket.git",
   "author": "Motley Labs Developers",
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/bn.js": "^5.1.1",
     "prettier": "^2.8.8",
     "typedoc": "^0.24.7",
@@ -34,7 +36,7 @@
     "@motleylabs/mtly-reward-center": "^0.2.8",
     "@project-serum/anchor": "^0.26.0",
     "@solana/spl-token": "^0.3.7",
-    "@solana/web3.js": "^1.76.0",
+    "@solana/web3.js": "^1.77.2",
     "axios": "^1.4.0",
     "bn.js": "^5.2.1"
   }
