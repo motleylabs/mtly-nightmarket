@@ -1,3 +1,8 @@
+import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata';
+import {
+  CloseListingInstructionAccounts,
+  createCloseListingInstruction,
+} from '@motleylabs/mtly-reward-center';
 import { getAssociatedTokenAddressSync } from '@solana/spl-token';
 import {
   AccountMeta,
@@ -6,14 +11,10 @@ import {
   PublicKey,
   TransactionInstruction,
 } from '@solana/web3.js';
+
 import { AuctionHouse } from '../../types';
 import { AuctionHouseProgram, getMetadata, getMetadataAccount, getPNFTAccounts } from '../../utils';
 import { RewardCenterProgram } from '../modules';
-import {
-  CloseListingInstructionAccounts,
-  createCloseListingInstruction,
-} from '@motleylabs/mtly-reward-center';
-import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata';
 
 export const getCloseListingInstructions = async ({
   connection,

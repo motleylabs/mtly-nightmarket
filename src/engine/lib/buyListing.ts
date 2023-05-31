@@ -1,3 +1,9 @@
+import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata';
+import {
+  BuyListingInstructionAccounts,
+  BuyListingInstructionArgs,
+  createBuyListingInstruction,
+} from '@motleylabs/mtly-reward-center';
 import {
   createAssociatedTokenAccountIdempotentInstruction,
   getAssociatedTokenAddress,
@@ -10,6 +16,7 @@ import {
   PublicKey,
   TransactionInstruction,
 } from '@solana/web3.js';
+
 import { AuctionHouse } from '../../types';
 import {
   AuctionHouseProgram,
@@ -19,12 +26,6 @@ import {
   toLamports,
 } from '../../utils';
 import { RewardCenterProgram } from '../modules';
-import {
-  BuyListingInstructionAccounts,
-  BuyListingInstructionArgs,
-  createBuyListingInstruction,
-} from '@motleylabs/mtly-reward-center';
-import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata';
 
 export const getBuyListingInstructions = async ({
   connection,

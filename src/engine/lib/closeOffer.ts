@@ -1,13 +1,14 @@
-import { getAssociatedTokenAddressSync } from '@solana/spl-token';
-import { Connection, PublicKey, TransactionInstruction } from '@solana/web3.js';
-import { AuctionHouse } from '../../types';
-import { AuctionHouseProgram, getMetadataAccount, toLamports } from '../../utils';
-import { RewardCenterProgram } from '../modules';
 import {
   CloseOfferInstructionAccounts,
   CloseOfferInstructionArgs,
   createCloseOfferInstruction,
 } from '@motleylabs/mtly-reward-center';
+import { getAssociatedTokenAddressSync } from '@solana/spl-token';
+import { Connection, PublicKey, TransactionInstruction } from '@solana/web3.js';
+
+import { AuctionHouse } from '../../types';
+import { AuctionHouseProgram, getMetadataAccount, toLamports } from '../../utils';
+import { RewardCenterProgram } from '../modules';
 
 export const getCloseOfferInstructions = async ({
   connection,

@@ -1,3 +1,11 @@
+import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata';
+import {
+  AcceptOfferInstructionAccounts,
+  AcceptOfferInstructionArgs,
+  CloseListingInstructionAccounts,
+  createAcceptOfferInstruction,
+  createCloseListingInstruction,
+} from '@motleylabs/mtly-reward-center';
 import {
   createAssociatedTokenAccountIdempotentInstruction,
   getAssociatedTokenAddressSync,
@@ -9,6 +17,7 @@ import {
   PublicKey,
   TransactionInstruction,
 } from '@solana/web3.js';
+
 import { AuctionHouse } from '../../types';
 import {
   AuctionHouseProgram,
@@ -18,14 +27,6 @@ import {
   toLamports,
 } from '../../utils';
 import { RewardCenterProgram } from '../modules';
-import {
-  AcceptOfferInstructionAccounts,
-  AcceptOfferInstructionArgs,
-  CloseListingInstructionAccounts,
-  createAcceptOfferInstruction,
-  createCloseListingInstruction,
-} from '@motleylabs/mtly-reward-center';
-import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata';
 
 export const getAcceptOfferInstructions = async ({
   connection,
