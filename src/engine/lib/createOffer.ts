@@ -9,11 +9,7 @@ import {
   TransactionInstruction,
 } from '@solana/web3.js';
 import { AuctionHouse } from '../../types';
-import {
-  AuctionHouseProgram,
-  getMetadataAccount,
-  toLamports,
-} from '../../utils';
+import { AuctionHouseProgram, getMetadataAccount, toLamports } from '../../utils';
 import { RewardCenterProgram } from '../modules';
 import {
   CreateOfferInstructionAccounts,
@@ -49,33 +45,23 @@ export const getCreateOfferInstructions = async ({
   const associatedTokenAccount = getAssociatedTokenAddressSync(mint, seller);
   const token = new PublicKey(auctionHouse.rewardCenter!.tokenMint);
 
-  const [escrowPaymentAcc, escrowPaymentBump] =
-    AuctionHouseProgram.findEscrowPaymentAccountAddress(
-      auctionHouseAddress,
-      buyer,
-    );
-
-  const [buyerTradeState, buyerTradeStateBump] =
-    AuctionHouseProgram.findPublicBidTradeStateAddress(
-      buyer,
-      auctionHouseAddress,
-      treasuryMint,
-      mint,
-      buyerPrice,
-      1,
-    );
-
-  const [rewardCenter] =
-    RewardCenterProgram.findRewardCenterAddress(auctionHouseAddress);
-  const [offer] = RewardCenterProgram.findOfferAddress(
-    buyer,
-    metadata,
-    rewardCenter,
-  );
-  const [auctioneer] = RewardCenterProgram.findAuctioneerAddress(
+  const [escrowPaymentAcc, escrowPaymentBump] = AuctionHouseProgram.findEscrowPaymentAccountAddress(
     auctionHouseAddress,
-    rewardCenter,
+    buyer
   );
+
+  const [buyerTradeState, buyerTradeStateBump] = AuctionHouseProgram.findPublicBidTradeStateAddress(
+    buyer,
+    auctionHouseAddress,
+    treasuryMint,
+    mint,
+    buyerPrice,
+    1
+  );
+
+  const [rewardCenter] = RewardCenterProgram.findRewardCenterAddress(auctionHouseAddress);
+  const [offer] = RewardCenterProgram.findOfferAddress(buyer, metadata, rewardCenter);
+  const [auctioneer] = RewardCenterProgram.findAuctioneerAddress(auctionHouseAddress, rewardCenter);
 
   const accounts: CreateOfferInstructionAccounts = {
     wallet: buyer,
@@ -121,7 +107,7 @@ export const getCreateOfferInstructions = async ({
     buyer,
     buyerRewardTokenAccount,
     buyer,
-    token,
+    token
   );
 
   ixs.push(buyerATAInstruction, instruction);

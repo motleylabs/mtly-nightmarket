@@ -49,9 +49,7 @@ export const getAcceptOfferInstructions = async ({
   const auctionHouseAddress = new PublicKey(auctionHouse.address);
   const buyerPrice = toLamports(price);
   const authority = new PublicKey(auctionHouse.authority);
-  const auctionHouseFeeAccount = new PublicKey(
-    auctionHouse.auctionHouseFeeAccount,
-  );
+  const auctionHouseFeeAccount = new PublicKey(auctionHouse.auctionHouseFeeAccount);
   const treasuryMint = new PublicKey(auctionHouse.treasuryMint);
   const auctionHouseTreasury = new PublicKey(auctionHouse.auctionHouseTreasury);
   const metadata = getMetadataAccount(mint);
@@ -64,30 +62,21 @@ export const getAcceptOfferInstructions = async ({
   const token = new PublicKey(auctionHouse.rewardCenter.tokenMint);
   const associatedTokenAccount = getAssociatedTokenAddressSync(mint, seller);
 
-  const [buyerTradeState, buyerTradeStateBump] =
-    AuctionHouseProgram.findPublicBidTradeStateAddress(
-      buyer,
-      auctionHouseAddress,
-      treasuryMint,
-      mint,
-      buyerPrice,
-      1,
-    );
+  const [buyerTradeState, buyerTradeStateBump] = AuctionHouseProgram.findPublicBidTradeStateAddress(
+    buyer,
+    auctionHouseAddress,
+    treasuryMint,
+    mint,
+    buyerPrice,
+    1
+  );
 
-  const [rewardCenter] =
-    RewardCenterProgram.findRewardCenterAddress(auctionHouseAddress);
+  const [rewardCenter] = RewardCenterProgram.findRewardCenterAddress(auctionHouseAddress);
 
   const [escrowPaymentAccount, escrowPaymentBump] =
-    AuctionHouseProgram.findEscrowPaymentAccountAddress(
-      auctionHouseAddress,
-      buyer,
-    );
+    AuctionHouseProgram.findEscrowPaymentAccountAddress(auctionHouseAddress, buyer);
 
-  const rewardCenterRewardTokenAccount = getAssociatedTokenAddressSync(
-    token,
-    rewardCenter,
-    true,
-  );
+  const rewardCenterRewardTokenAccount = getAssociatedTokenAddressSync(token, rewardCenter, true);
 
   const buyerReceiptTokenAccount = getAssociatedTokenAddressSync(mint, buyer);
 
@@ -98,44 +87,35 @@ export const getAcceptOfferInstructions = async ({
       associatedTokenAccount,
       treasuryMint,
       mint,
-      1,
+      1
     );
 
   const [programAsSigner, programAsSignerBump] =
     AuctionHouseProgram.findAuctionHouseProgramAsSignerAddress();
 
-  const [freeSellerTradeState, freeTradeStateBump] =
-    AuctionHouseProgram.findTradeStateAddress(
-      seller,
-      auctionHouseAddress,
-      associatedTokenAccount,
-      treasuryMint,
-      mint,
-      0,
-      1,
-    );
-
-  const [rewardsOffer] = RewardCenterProgram.findOfferAddress(
-    buyer,
-    metadata,
-    rewardCenter,
-  );
-
-  const [auctioneer] = RewardCenterProgram.findAuctioneerAddress(
+  const [freeSellerTradeState, freeTradeStateBump] = AuctionHouseProgram.findTradeStateAddress(
+    seller,
     auctionHouseAddress,
-    rewardCenter,
+    associatedTokenAccount,
+    treasuryMint,
+    mint,
+    0,
+    1
   );
+
+  const [rewardsOffer] = RewardCenterProgram.findOfferAddress(buyer, metadata, rewardCenter);
+
+  const [auctioneer] = RewardCenterProgram.findAuctioneerAddress(auctionHouseAddress, rewardCenter);
 
   const buyerRewardTokenAccount = getAssociatedTokenAddressSync(token, buyer);
   const sellerRewardTokenAccount = getAssociatedTokenAddressSync(token, seller);
 
-  const sellerATAInstruction =
-    createAssociatedTokenAccountIdempotentInstruction(
-      seller,
-      sellerRewardTokenAccount,
-      seller,
-      token,
-    );
+  const sellerATAInstruction = createAssociatedTokenAccountIdempotentInstruction(
+    seller,
+    sellerRewardTokenAccount,
+    seller,
+    token
+  );
 
   const acceptOfferAccounts: AcceptOfferInstructionAccounts = {
     buyer: buyer,
@@ -174,10 +154,7 @@ export const getAcceptOfferInstructions = async ({
     },
   };
 
-  const acceptOfferIx = createAcceptOfferInstruction(
-    acceptOfferAccounts,
-    acceptOfferArgs,
-  );
+  const acceptOfferIx = createAcceptOfferInstruction(acceptOfferAccounts, acceptOfferArgs);
 
   let remainingAccounts: AccountMeta[] = [];
 
@@ -194,13 +171,7 @@ export const getAcceptOfferInstructions = async ({
   }
 
   if (mintMetadata.tokenStandard === TokenStandard.ProgrammableNonFungible) {
-    const pnftAccounts = await getPNFTAccounts(
-      connection,
-      buyer,
-      programAsSigner,
-      mint,
-      seller,
-    );
+    const pnftAccounts = await getPNFTAccounts(connection, buyer, programAsSigner, mint, seller);
 
     remainingAccounts.push(pnftAccounts.metadataProgram);
     remainingAccounts.push(pnftAccounts.edition);
@@ -232,15 +203,8 @@ export const getAcceptOfferInstructions = async ({
   const ixs: TransactionInstruction[] = [];
 
   // add instruction to close listing if exists
-  const [listingAddress] = RewardCenterProgram.findListingAddress(
-    seller,
-    metadata,
-    rewardCenter,
-  );
-  const listingAccount = await connection.getAccountInfo(
-    listingAddress,
-    'confirmed',
-  );
+  const [listingAddress] = RewardCenterProgram.findListingAddress(seller, metadata, rewardCenter);
+  const listingAccount = await connection.getAccountInfo(listingAddress, 'confirmed');
   if (!!listingAccount) {
     const accounts: CloseListingInstructionAccounts = {
       auctionHouseProgram: AuctionHouseProgram.PUBKEY,
@@ -258,12 +222,7 @@ export const getAcceptOfferInstructions = async ({
     };
 
     if (mintMetadata.tokenStandard === TokenStandard.ProgrammableNonFungible) {
-      const pnftAccounts = await getPNFTAccounts(
-        connection,
-        seller,
-        programAsSigner,
-        mint,
-      );
+      const pnftAccounts = await getPNFTAccounts(connection, seller, programAsSigner, mint);
       const remainingAccounts: AccountMeta[] = [];
       remainingAccounts.push(pnftAccounts.metadataProgram);
       remainingAccounts.push(pnftAccounts.delegateRecord);
@@ -297,7 +256,7 @@ export const getAcceptOfferInstructions = async ({
       programId: RewardCenterProgram.PUBKEY,
       data: acceptOfferIx.data,
       keys,
-    }),
+    })
   );
 
   const ix = ComputeBudgetProgram.setComputeUnitLimit({ units: 1000000 });

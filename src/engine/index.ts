@@ -31,7 +31,7 @@ export class NightmarketClient {
    * Get the listing details for a NFT
    * @param mint - Public key of the NFT
    * @returns {Listing | null} - NFT listing details
-   * 
+   *
    * This function can be used to fetch the listing information like the following.
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
@@ -59,7 +59,7 @@ export class NightmarketClient {
    * Get offers for a NFT
    * @param mint - Public key of the NFT
    * @returns {Offer[]} - A list of NFT offers
-   * 
+   *
    * This function can be used to fetch the offers information like the following.
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
@@ -90,7 +90,7 @@ export class NightmarketClient {
    * @param price - SOL price of listing
    * @param seller - Public key for the seller
    * @returns {Action} - Night Market action object
-   * 
+   *
    * The function can be used to construct a versioned transaction like the following.
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
@@ -143,7 +143,7 @@ export class NightmarketClient {
    * @param price - Updated SOL price of the NFT
    * @param seller - Public key for the seller
    * @returns {Action} - Night Market action object
-   * 
+   *
    * The function can be used to construct a transaction like the following.
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
@@ -155,11 +155,11 @@ export class NightmarketClient {
    *
    * const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
    * const tx = new Transaction();
-   * 
+   *
    * tx.add(...updateListingAction.instructions);
    * tx.recentBlockhash = blockhash;
    * tx.feePayer = seller;
-   * tx.lastValidBlockHeight = lastValidBlockHeight; 
+   * tx.lastValidBlockHeight = lastValidBlockHeight;
    * ```
    */
   public async UpdateListing(mint: PublicKey, price: number, seller: PublicKey): Promise<Action> {
@@ -188,7 +188,7 @@ export class NightmarketClient {
    * @param mint - Public key for the listed NFT
    * @param seller - Public key for the seller
    * @returns {Action} - Night Market action object
-   * 
+   *
    * The function can be used to construct a versioned transaction like the following.
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
@@ -240,7 +240,7 @@ export class NightmarketClient {
    * @param seller - Public key for the NFT owner
    * @param buyer - Public key for the buyer
    * @returns {Action} - Night Market action object
-   * 
+   *
    * The function can be used to construct a transaction like the following.
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
@@ -252,11 +252,11 @@ export class NightmarketClient {
    *
    * const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
    * const tx = new Transaction();
-   * 
+   *
    * tx.add(...createOfferAction.instructions);
    * tx.recentBlockhash = blockhash;
    * tx.feePayer = buyer;
-   * tx.lastValidBlockHeight = lastValidBlockHeight; 
+   * tx.lastValidBlockHeight = lastValidBlockHeight;
    * ```
    */
   public async CreateOffer(
@@ -294,7 +294,7 @@ export class NightmarketClient {
    * @param seller - Public key for the seller
    * @param buyer - Public key for the buyer
    * @returns {Action} - Night Market action object
-   * 
+   *
    * The function can be used to construct a transaction like the following.
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
@@ -306,11 +306,11 @@ export class NightmarketClient {
    *
    * const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
    * const tx = new Transaction();
-   * 
+   *
    * tx.add(...closeOfferAction.instructions);
    * tx.recentBlockhash = blockhash;
    * tx.feePayer = buyer;
-   * tx.lastValidBlockHeight = lastValidBlockHeight; 
+   * tx.lastValidBlockHeight = lastValidBlockHeight;
    * ```
    */
   public async CloseOffer(
@@ -409,7 +409,7 @@ export class NightmarketClient {
    * @param seller - Public key for the seller
    * @param buyer - Public key for the buyer
    * @returns {Action} - Night Market action object
-   * 
+   *
    * The function can be used to construct a versioned transaction like the following.
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
