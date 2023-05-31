@@ -1,3 +1,8 @@
 {
-  "branches": ['+([0-9])?(.{+([0-9]),x}).x', 'main', 'next', 'next-major', {name: 'beta', prerelease: true}, {name: 'alpha', prerelease: true}]
+  "branches": ['+([0-9])?(.{+([0-9]),x}).x', 'main', 'next', 'next-major', {name: 'beta', prerelease: true}, {name: 'alpha', prerelease: true}],
+  "repositoryUrl": "git@github.com:motleylabs/mtly-nightmarket.git",
+  "preset": "conventionalcommits",
+  "presetConfig": {
+    "issueUrlFormat": "{{host}}/{{owner}}/mtly-nightmarket/issues/{{id}}"
+  }
 }

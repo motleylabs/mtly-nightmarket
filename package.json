@@ -16,7 +16,7 @@
     "build": "tsc",
     "docs": "typedoc --treatWarningsAsErrors",
     "format": "prettier --write --ignore-path .gitignore **/*.ts **/**/*.ts",
-    "publish-package": "semantic-release --repository-url git@github.com:motleylabs/mtly-nightmarket.git"
+    "publish-package": "semantic-release"
   },
   "publishConfig": {
     "access": "public",
@@ -27,6 +27,7 @@
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/bn.js": "^5.1.1",
+    "conventional-changelog-conventionalcommits": "^5.0.0",
     "prettier": "^2.8.8",
     "semantic-release": "^21.0.2",
     "typedoc": "^0.24.7",
