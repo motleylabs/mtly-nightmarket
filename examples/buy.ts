@@ -1,36 +1,45 @@
 // @ts-nocheck
-import { Action, NightmarketClient } from '@motleylabs/mtly-nightmarket';
+import { Action, Listing, NightmarketClient } from '@motleylabs/mtly-nightmarket';
 import { WalletContextState } from '@solana/wallet-adapter-react';
 import { Connection, PublicKey, TransactionMessage, VersionedTransaction } from '@solana/web3.js';
 
-import {
-  queueVersionedTransactionSign,
-  reduceSettledPromise,
-  sendTransactionWithRetry,
-} from './transactions';
+import { queueVersionedTransactionSign, reduceSettledPromise } from './transactions';
 
-export const createListing = async ({
+export const buyListing = async ({
   connection,
   wallet,
   mint,
-  amount,
 }: {
   connection: Connection;
   wallet: WalletContextState;
   mint: PublicKey;
-  amount: number;
 }): Promise<void> => {
   if (!wallet.publicKey || !wallet.signTransaction) {
     throw 'wallet is not connected';
   }
 
+  // get the night market client instance
   const nightmarketClient = new NightmarketClient('YOUR RPC ENDPOINT');
-  const txRes: Action = await nightmarketClient.CreateListing(mint, amount, wallet.publicKey);
 
+  // get the listing information for the mint
+  const listing: Listing = await nightmarketClient.GetListing(mint);
+
+  if (!listing) {
+    throw 'NFT is not listed';
+  }
+
+  // get the transaction information for buying the NFT
+  const txRes: Action = await nightmarketClient.BuyListing(
+    mint,
+    listing.price,
+    listing.seller,
+    wallet.publicKey
+  );
   if (!!txRes.err) {
     throw txRes.err;
   }
 
+  // build a versioned transaction
   const { blockhash } = await connection.getLatestBlockhash();
   const messageV0 = new TransactionMessage({
     payerKey: wallet.publicKey,
@@ -39,6 +48,7 @@ export const createListing = async ({
   }).compileToV0Message(txRes.ltAccounts);
   const transactionV0 = new VersionedTransaction(messageV0);
 
+  // send and confirm the versioned transaction
   const pendingSigned = await queueVersionedTransactionSign({
     transactions: [transactionV0],
     signAllTransactions: wallet.signAllTransactions,
@@ -56,30 +66,4 @@ export const createListing = async ({
   if (settledSignedTxs.fulfilled.length > 0) {
     return;
   }
-};
-
-export const updateListing = async ({
-  connection,
-  wallet,
-  mint,
-  amount,
-}: {
-  connection: Connection;
-  wallet: WalletContextState;
-  mint: PublicKey;
-  amount: number;
-}): Promise<void> => {
-  if (!wallet.publicKey || !wallet.signTransaction) {
-    throw 'wallet is not connected';
-  }
-
-  const nightmarketClient = new NightmarketClient(process.env.NEXT_PUBLIC_SOLANA_RPC_URL ?? '');
-  const txRes: Action = await nightmarketClient.UpdateListing(mint, amount, wallet.publicKey);
-
-  if (!!txRes.err) {
-    throw txRes.err;
-  }
-
-  const { txid } = await sendTransactionWithRetry(connection, wallet, txRes.insructions, []);
-  console.log(`Update listing signature: ${txid}`);
 };
