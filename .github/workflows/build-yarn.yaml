@@ -1,0 +1,47 @@
+name: CI/CD
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  push:
+    branches: [main, beta]
+
+jobs:
+  build:
+    name: Build with yarn
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build with yarn cache
+        id: prepare-yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        id: install-deps
+        run: yarn
+
+      - name: build image
+        id: build
+        run: |
+          yarn build
+          yarn docs
+
+      - name: Publish NPM
+        run: |
+          yarn config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+          yarn publish-package
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Deploy Github Page
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
