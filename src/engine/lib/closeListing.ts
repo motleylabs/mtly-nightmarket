@@ -7,12 +7,7 @@ import {
   TransactionInstruction,
 } from '@solana/web3.js';
 import { AuctionHouse } from '../../types';
-import {
-  AuctionHouseProgram,
-  getMetadata,
-  getMetadataAccount,
-  getPNFTAccounts,
-} from '../../utils';
+import { AuctionHouseProgram, getMetadata, getMetadataAccount, getPNFTAccounts } from '../../utils';
 import { RewardCenterProgram } from '../modules';
 import {
   CloseListingInstructionAccounts,
@@ -33,9 +28,7 @@ export const getCloseListingInstructions = async ({
 }): Promise<TransactionInstruction[]> => {
   const auctionHouseAddress = new PublicKey(auctionHouse.address);
   const authority = new PublicKey(auctionHouse.authority);
-  const auctionHouseFeeAccount = new PublicKey(
-    auctionHouse.auctionHouseFeeAccount,
-  );
+  const auctionHouseFeeAccount = new PublicKey(auctionHouse.auctionHouseFeeAccount);
   const treasuryMint = new PublicKey(auctionHouse.treasuryMint);
   const metadata = getMetadataAccount(mint);
   const associatedTokenAccount = getAssociatedTokenAddressSync(mint, seller);
@@ -45,29 +38,20 @@ export const getCloseListingInstructions = async ({
     throw 'metadata not found';
   }
 
-  const [sellerTradeState] =
-    RewardCenterProgram.findAuctioneerTradeStateAddress(
-      seller,
-      auctionHouseAddress,
-      associatedTokenAccount,
-      treasuryMint,
-      mint,
-      1,
-    );
-
-  const [rewardCenter] =
-    RewardCenterProgram.findRewardCenterAddress(auctionHouseAddress);
-
-  const [listingAddress] = RewardCenterProgram.findListingAddress(
+  const [sellerTradeState] = RewardCenterProgram.findAuctioneerTradeStateAddress(
     seller,
-    metadata,
-    rewardCenter,
+    auctionHouseAddress,
+    associatedTokenAccount,
+    treasuryMint,
+    mint,
+    1
   );
 
-  const [auctioneer] = RewardCenterProgram.findAuctioneerAddress(
-    auctionHouseAddress,
-    rewardCenter,
-  );
+  const [rewardCenter] = RewardCenterProgram.findRewardCenterAddress(auctionHouseAddress);
+
+  const [listingAddress] = RewardCenterProgram.findListingAddress(seller, metadata, rewardCenter);
+
+  const [auctioneer] = RewardCenterProgram.findAuctioneerAddress(auctionHouseAddress, rewardCenter);
 
   const accounts: CloseListingInstructionAccounts = {
     auctionHouseProgram: AuctionHouseProgram.PUBKEY,
@@ -85,14 +69,8 @@ export const getCloseListingInstructions = async ({
   };
 
   if (mintMetadata.tokenStandard === TokenStandard.ProgrammableNonFungible) {
-    const [programAsSigner] =
-      AuctionHouseProgram.findAuctionHouseProgramAsSignerAddress();
-    const pnftAccounts = await getPNFTAccounts(
-      connection,
-      seller,
-      programAsSigner,
-      mint,
-    );
+    const [programAsSigner] = AuctionHouseProgram.findAuctionHouseProgramAsSignerAddress();
+    const pnftAccounts = await getPNFTAccounts(connection, seller, programAsSigner, mint);
     const remainingAccounts: AccountMeta[] = [];
     remainingAccounts.push(pnftAccounts.metadataProgram);
     remainingAccounts.push(pnftAccounts.delegateRecord);

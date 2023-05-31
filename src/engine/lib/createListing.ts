@@ -10,12 +10,7 @@ import {
   TransactionInstruction,
 } from '@solana/web3.js';
 import { AuctionHouse } from '../../types';
-import {
-  AuctionHouseProgram,
-  getMetadataAccount,
-  getPNFTAccounts,
-  toLamports,
-} from '../../utils';
+import { AuctionHouseProgram, getMetadataAccount, getPNFTAccounts, toLamports } from '../../utils';
 import { RewardCenterProgram } from '../modules';
 import {
   CreateListingInstructionAccounts,
@@ -45,9 +40,7 @@ export const getCreateListingInstructions = async ({
   const auctionHouseAddress = new PublicKey(auctionHouse.address);
   const buyerPrice = toLamports(price);
   const authority = new PublicKey(auctionHouse.authority);
-  const auctionHouseFeeAccount = new PublicKey(
-    auctionHouse.auctionHouseFeeAccount,
-  );
+  const auctionHouseFeeAccount = new PublicKey(auctionHouse.auctionHouseFeeAccount);
 
   const treasuryMint = new PublicKey(auctionHouse.treasuryMint);
   const metadata = getMetadataAccount(mint);
@@ -59,43 +52,33 @@ export const getCreateListingInstructions = async ({
     throw 'metadata not found';
   }
 
-  const [sellerTradeState, tradeStateBump] =
-    RewardCenterProgram.findAuctioneerTradeStateAddress(
-      seller,
-      auctionHouseAddress,
-      associatedTokenAccount,
-      treasuryMint,
-      mint,
-      1,
-    );
+  const [sellerTradeState, tradeStateBump] = RewardCenterProgram.findAuctioneerTradeStateAddress(
+    seller,
+    auctionHouseAddress,
+    associatedTokenAccount,
+    treasuryMint,
+    mint,
+    1
+  );
 
   const [programAsSigner, programAsSignerBump] =
     AuctionHouseProgram.findAuctionHouseProgramAsSignerAddress();
 
-  const [freeTradeState, freeTradeStateBump] =
-    AuctionHouseProgram.findTradeStateAddress(
-      seller,
-      auctionHouseAddress,
-      associatedTokenAccount,
-      treasuryMint,
-      mint,
-      0,
-      1,
-    );
-
-  const [rewardCenter] =
-    RewardCenterProgram.findRewardCenterAddress(auctionHouseAddress);
-
-  const [listingAddress] = RewardCenterProgram.findListingAddress(
+  const [freeTradeState, freeTradeStateBump] = AuctionHouseProgram.findTradeStateAddress(
     seller,
-    metadata,
-    rewardCenter,
+    auctionHouseAddress,
+    associatedTokenAccount,
+    treasuryMint,
+    mint,
+    0,
+    1
   );
 
-  const [auctioneer] = RewardCenterProgram.findAuctioneerAddress(
-    auctionHouseAddress,
-    rewardCenter,
-  );
+  const [rewardCenter] = RewardCenterProgram.findRewardCenterAddress(auctionHouseAddress);
+
+  const [listingAddress] = RewardCenterProgram.findListingAddress(seller, metadata, rewardCenter);
+
+  const [auctioneer] = RewardCenterProgram.findAuctioneerAddress(auctionHouseAddress, rewardCenter);
 
   const accounts: CreateListingInstructionAccounts = {
     auctionHouseProgram: AuctionHouseProgram.PUBKEY,
@@ -114,12 +97,7 @@ export const getCreateListingInstructions = async ({
   };
 
   if (mintMetadata.tokenStandard === TokenStandard.ProgrammableNonFungible) {
-    const pnftAccounts = await getPNFTAccounts(
-      connection,
-      seller,
-      programAsSigner,
-      mint,
-    );
+    const pnftAccounts = await getPNFTAccounts(connection, seller, programAsSigner, mint);
     const remainingAccounts: AccountMeta[] = [];
     remainingAccounts.push(pnftAccounts.metadataProgram);
     remainingAccounts.push(pnftAccounts.delegateRecord);
@@ -152,13 +130,12 @@ export const getCreateListingInstructions = async ({
 
   const sellerRewardTokenAccount = getAssociatedTokenAddressSync(token, seller);
 
-  const sellerATAInstruction =
-    createAssociatedTokenAccountIdempotentInstruction(
-      seller,
-      sellerRewardTokenAccount,
-      seller,
-      token,
-    );
+  const sellerATAInstruction = createAssociatedTokenAccountIdempotentInstruction(
+    seller,
+    sellerRewardTokenAccount,
+    seller,
+    token
+  );
 
   const ixs: TransactionInstruction[] = [];
 

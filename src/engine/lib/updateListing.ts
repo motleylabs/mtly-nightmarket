@@ -1,11 +1,7 @@
 import { getAssociatedTokenAddressSync } from '@solana/spl-token';
 import { PublicKey, TransactionInstruction } from '@solana/web3.js';
 import { AuctionHouse } from '../../types';
-import {
-  AuctionHouseProgram,
-  getMetadataAccount,
-  toLamports,
-} from '../../utils';
+import { AuctionHouseProgram, getMetadataAccount, toLamports } from '../../utils';
 import { RewardCenterProgram } from '../modules';
 import {
   UpdateListingInstructionAccounts,
@@ -30,14 +26,9 @@ export const getUpdateListingInstructions = ({
 
   const associatedTokenAccount = getAssociatedTokenAddressSync(mint, seller);
 
-  const [rewardCenter] =
-    RewardCenterProgram.findRewardCenterAddress(auctionHouseAddress);
+  const [rewardCenter] = RewardCenterProgram.findRewardCenterAddress(auctionHouseAddress);
 
-  const [listingAddress] = RewardCenterProgram.findListingAddress(
-    seller,
-    metadata,
-    rewardCenter,
-  );
+  const [listingAddress] = RewardCenterProgram.findListingAddress(seller, metadata, rewardCenter);
 
   const accounts: UpdateListingInstructionAccounts = {
     auctionHouseProgram: AuctionHouseProgram.PUBKEY,

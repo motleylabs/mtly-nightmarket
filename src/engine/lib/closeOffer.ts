@@ -1,11 +1,7 @@
 import { getAssociatedTokenAddressSync } from '@solana/spl-token';
 import { Connection, PublicKey, TransactionInstruction } from '@solana/web3.js';
 import { AuctionHouse } from '../../types';
-import {
-  AuctionHouseProgram,
-  getMetadataAccount,
-  toLamports,
-} from '../../utils';
+import { AuctionHouseProgram, getMetadataAccount, toLamports } from '../../utils';
 import { RewardCenterProgram } from '../modules';
 import {
   CloseOfferInstructionAccounts,
@@ -42,27 +38,21 @@ export const getCloseOfferInstructions = async ({
     treasuryMint,
     mint,
     buyerPrice,
-    1,
+    1
   );
 
-  const [escrowPaymentAcc, escrowPaymentBump] =
-    AuctionHouseProgram.findEscrowPaymentAccountAddress(
-      auctionHouseAddress,
-      buyer,
-    );
-
-  const [rewardCenter] =
-    RewardCenterProgram.findRewardCenterAddress(auctionHouseAddress);
-
-  const [rewardsOffer] = RewardCenterProgram.findOfferAddress(
-    buyer,
-    metadata,
-    rewardCenter,
+  const [escrowPaymentAcc, escrowPaymentBump] = AuctionHouseProgram.findEscrowPaymentAccountAddress(
+    auctionHouseAddress,
+    buyer
   );
+
+  const [rewardCenter] = RewardCenterProgram.findRewardCenterAddress(auctionHouseAddress);
+
+  const [rewardsOffer] = RewardCenterProgram.findOfferAddress(buyer, metadata, rewardCenter);
 
   const [auctioneer] = await RewardCenterProgram.findAuctioneerAddress(
     auctionHouseAddress,
-    rewardCenter,
+    rewardCenter
   );
 
   const accounts: CloseOfferInstructionAccounts = {

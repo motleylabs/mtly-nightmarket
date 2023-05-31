@@ -4,9 +4,7 @@ import { BN } from 'bn.js';
 
 import { AuctionHouseProgram } from '../../utils/mtly-house';
 
-const REWARD_CENTER_PROGRAM = new PublicKey(
-  'rwdD3F6CgoCAoVaxcitXAeWRjQdiGc5AVABKCpQSMfd',
-);
+const REWARD_CENTER_PROGRAM = new PublicKey('rwdD3F6CgoCAoVaxcitXAeWRjQdiGc5AVABKCpQSMfd');
 
 export class RewardCenterProgram {
   static PUBKEY = REWARD_CENTER_PROGRAM;
@@ -14,14 +12,14 @@ export class RewardCenterProgram {
   static findRewardCenterAddress(auctionHouse: PublicKey): [PublicKey, number] {
     return PublicKey.findProgramAddressSync(
       [Buffer.from('reward_center', 'utf8'), auctionHouse.toBuffer()],
-      REWARD_CENTER_PROGRAM,
+      REWARD_CENTER_PROGRAM
     );
   }
 
   static findListingAddress(
     seller: PublicKey,
     metadata: PublicKey,
-    rewardCenter: PublicKey,
+    rewardCenter: PublicKey
   ): [PublicKey, number] {
     return PublicKey.findProgramAddressSync(
       [
@@ -30,37 +28,28 @@ export class RewardCenterProgram {
         metadata.toBuffer(),
         rewardCenter.toBuffer(),
       ],
-      REWARD_CENTER_PROGRAM,
+      REWARD_CENTER_PROGRAM
     );
   }
 
   static findOfferAddress(
     buyer: PublicKey,
     metadata: PublicKey,
-    rewardCenter: PublicKey,
+    rewardCenter: PublicKey
   ): [PublicKey, number] {
     return PublicKey.findProgramAddressSync(
-      [
-        Buffer.from('offer'),
-        buyer.toBuffer(),
-        metadata.toBuffer(),
-        rewardCenter.toBuffer(),
-      ],
-      REWARD_CENTER_PROGRAM,
+      [Buffer.from('offer'), buyer.toBuffer(), metadata.toBuffer(), rewardCenter.toBuffer()],
+      REWARD_CENTER_PROGRAM
     );
   }
 
   static findAuctioneerAddress(
     auctionHouse: PublicKey,
-    rewardCenter: PublicKey,
+    rewardCenter: PublicKey
   ): [PublicKey, number] {
     return PublicKey.findProgramAddressSync(
-      [
-        Buffer.from('auctioneer', 'utf8'),
-        auctionHouse.toBuffer(),
-        rewardCenter.toBuffer(),
-      ],
-      AuctionHouseProgram.PUBKEY,
+      [Buffer.from('auctioneer', 'utf8'), auctionHouse.toBuffer(), rewardCenter.toBuffer()],
+      AuctionHouseProgram.PUBKEY
     );
   }
 
@@ -70,7 +59,7 @@ export class RewardCenterProgram {
     tokenAccount: PublicKey,
     treasuryMint: PublicKey,
     tokenMint: PublicKey,
-    tokenSize: number,
+    tokenSize: number
   ): [PublicKey, number] {
     return PublicKey.findProgramAddressSync(
       [
@@ -83,17 +72,14 @@ export class RewardCenterProgram {
         new BN('18446744073709551615').toArrayLike(Buffer, 'le', 8),
         new BN(tokenSize).toArrayLike(Buffer, 'le', 8),
       ],
-      AuctionHouseProgram.PUBKEY,
+      AuctionHouseProgram.PUBKEY
     );
   }
 
-  static findPurchaseTicketAddress(
-    listing: PublicKey,
-    offer: PublicKey,
-  ): [PublicKey, number] {
+  static findPurchaseTicketAddress(listing: PublicKey, offer: PublicKey): [PublicKey, number] {
     return PublicKey.findProgramAddressSync(
       [Buffer.from('purchase_ticket'), listing.toBuffer(), offer.toBuffer()],
-      REWARD_CENTER_PROGRAM,
+      REWARD_CENTER_PROGRAM
     );
   }
 }
