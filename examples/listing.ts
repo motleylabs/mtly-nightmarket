@@ -24,13 +24,17 @@ export const createListing = async ({
     throw 'wallet is not connected';
   }
 
+  // get the night market client instance
   const nightmarketClient = new NightmarketClient('YOUR RPC ENDPOINT');
+
+  // get the transaction information for listing the mint
   const txRes: Action = await nightmarketClient.CreateListing(mint, amount, wallet.publicKey);
 
   if (!!txRes.err) {
     throw txRes.err;
   }
 
+  // build a versioned transaction
   const { blockhash } = await connection.getLatestBlockhash();
   const messageV0 = new TransactionMessage({
     payerKey: wallet.publicKey,
@@ -39,6 +43,7 @@ export const createListing = async ({
   }).compileToV0Message(txRes.ltAccounts);
   const transactionV0 = new VersionedTransaction(messageV0);
 
+  // send and confirm the versioned transaction
   const pendingSigned = await queueVersionedTransactionSign({
     transactions: [transactionV0],
     signAllTransactions: wallet.signAllTransactions,
@@ -73,13 +78,17 @@ export const updateListing = async ({
     throw 'wallet is not connected';
   }
 
+  // get the night market client instance
   const nightmarketClient = new NightmarketClient(process.env.NEXT_PUBLIC_SOLANA_RPC_URL ?? '');
+
+  // get the transaction information for updating the listing
   const txRes: Action = await nightmarketClient.UpdateListing(mint, amount, wallet.publicKey);
 
   if (!!txRes.err) {
     throw txRes.err;
   }
 
+  // build, send, and confirm the transaction
   const { txid } = await sendTransactionWithRetry(connection, wallet, txRes.insructions, []);
   console.log(`Update listing signature: ${txid}`);
 };

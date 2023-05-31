@@ -49,7 +49,7 @@ export const acceptOffer = async ({
   }).compileToV0Message(txRes.ltAccounts);
   const transactionV0 = new VersionedTransaction(messageV0);
 
-  // send and confirm transaction
+  // send and confirm the versioned transaction
   const pendingSigned = await queueVersionedTransactionSign({
     transactions: [transactionV0],
     signAllTransactions: wallet.signAllTransactions,
