@@ -1,4 +1,5 @@
-import { Wallet } from '@project-serum/anchor';
+// @ts-nocheck
+import { WalletContextState } from '@solana/wallet-adapter-react';
 import {
   Commitment,
   ComputeBudgetProgram,
@@ -118,7 +119,7 @@ export async function awaitTransactionSignatureConfirmation(
 
 export const sendTransactionWithRetry = async (
   connection: Connection,
-  wallet: Wallet,
+  wallet: WalletContextState,
   instructions: TransactionInstruction[],
   signers: Keypair[],
   computeUnits = 0,

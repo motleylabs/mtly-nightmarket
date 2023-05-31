@@ -9,7 +9,11 @@ import {
   VersionedTransaction,
 } from '@solana/web3.js';
 
-import { queueVersionedTransactionSign, reduceSettledPromise } from './transactions';
+import {
+  queueVersionedTransactionSign,
+  reduceSettledPromise,
+  sendTransactionWithRetry,
+} from './transactions';
 
 export const createListing = async ({
   connection,
@@ -82,24 +86,6 @@ export const updateListing = async ({
     throw txRes.err;
   }
 
-  const tx = new Transaction();
-  tx.add(...txRes.instructions);
-
-  const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
-  tx.recentBlockhash = blockhash;
-  tx.feePayer = wallet.publicKey;
-
-  const signedTx = await wallet.signTransaction(tx);
-  const signature = await connection.sendRawTransaction(signedTx.serialize());
-  if (!signature) {
-    return;
-  }
-  await connection.confirmTransaction(
-    {
-      blockhash,
-      lastValidBlockHeight,
-      signature,
-    },
-    'confirmed'
-  );
+  const { txid } = await sendTransactionWithRetry(connection, wallet, txRes.insructions, []);
+  console.log(`Update listing signature: ${txid}`);
 };
