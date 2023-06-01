@@ -2,6 +2,7 @@ import type { PayoutOperation } from '@motleylabs/mtly-reward-center';
 
 export type AuctionHouse = {
   address: string;
+  program: string;
   authority: string;
   auctionHouseFeeAccount: string;
   auctionHouseTreasury: string;

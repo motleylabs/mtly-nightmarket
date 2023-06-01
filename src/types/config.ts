@@ -12,6 +12,7 @@ export type Config = {
 export const defaultConfig: Config = {
   auctionHouse: {
     address: 'FVmjRUm2ssXi5vZUhwzB2HfXzTVzvE73x3f5NmTtZ7C8',
+    program: 'rwdD3F6CgoCAoVaxcitXAeWRjQdiGc5AVABKCpQSMfd',
     auctionHouseFeeAccount: '9AhUsSTdzZzi6MJcFGQkZam4zYQSNT1Lqz83P3viyqJk',
     auctionHouseTreasury: 'Ad7toYmfWGMYeB3gsDXTPFRgUhkNwvimZxC69nzkqJK7',
     authority: 'MtLyd5Jf2V3YbkUyRPR4VSUaa1MYw38c2U6dCwg4WUv',

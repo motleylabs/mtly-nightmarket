@@ -28,6 +28,14 @@ export class NightmarketClient {
   }
 
   /**
+   * Get the configuration for the client
+   * @returns { Config } - Configuration
+   */
+  public GetConfig(): Config {
+    return this.config;
+  }
+
+  /**
    * Get the listing details for a NFT
    * @param mint - Public key of the NFT
    * @returns {Listing | null} - NFT listing details

@@ -23,9 +23,14 @@ export const buyListing = async ({
 
   // get the listing information for the mint
   const listing: Listing = await nightmarketClient.GetListing(mint);
+  const config = nightmarketClient.GetConfig();
 
-  if (!listing) {
-    throw 'NFT is not listed';
+  if (
+    !listing ||
+    listing.auctionHouseAddress !== config.auctionHouse.address ||
+    listing.auctionHouseProgram !== config.auctionHouse.program
+  ) {
+    throw 'NFT is not listed on the night market';
   }
 
   // get the transaction information for buying the NFT
