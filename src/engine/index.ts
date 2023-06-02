@@ -28,11 +28,37 @@ export class NightmarketClient {
   }
 
   /**
-   * Get the configuration for the client
-   * @returns { Config } - Configuration
+   * Check if the current listing is on the night market
+   * @param listing - Listing information
+   * @returns - A boolean value that is true if the listing is on the night market
+   *
+   * This function can be used like the following.
+   * ```ts
+   * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
+   * const isNMListing = nmClient.IsLocalListing(listing);
    */
-  public GetConfig(): Config {
-    return this.config;
+  public IsLocalListing(listing: Listing): boolean {
+    return (
+      listing.auctionHouseAddress === this.config.auctionHouse.address &&
+      listing.auctionHouseProgram === this.config.auctionHouse.program
+    );
+  }
+
+  /**
+   * Check if the current offer is from the night market
+   * @param offer - Offer information
+   * @returns - A boolean value that is true if the offer is from the night market
+   *
+   * This function can be used like the following.
+   * ```ts
+   * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
+   * const isNMOffer = nmClient.IsLocalOffer(offer);
+   */
+  public IsLocalOffer(offer: Offer): boolean {
+    return (
+      offer.auctionHouseAddress === this.config.auctionHouse.address &&
+      offer.auctionHouseProgram === this.config.auctionHouse.program
+    );
   }
 
   /**

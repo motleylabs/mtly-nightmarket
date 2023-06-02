@@ -20,16 +20,11 @@ export const acceptOffer = async ({
 
   // get the night market client instance
   const nightmarketClient = new NightmarketClient('YOUR RPC ENDPOINT');
-  const config = nightmarketClient.GetConfig();
 
   // get the offers for the mint that are sorted by the offer price
   const offers = nightmarketClient
     .GetOffers(mint)
-    .filter(
-      (offer: Offer) =>
-        offer.auctionHouseAddress === config.auctionHouse.address &&
-        offer.auctionHouseProgram === config.auctionHouse.program
-    )
+    .filter((offer: Offer) => nightmarketClient.IsLocalOffer(offer))
     .sort((a: Offer, b: Offer) => b.price - a.price);
 
   if (offers.length === 0) {
