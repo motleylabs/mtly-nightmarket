@@ -20,7 +20,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">NightmarketClient</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/60e5432/src/engine/index.ts#L16">engine/index.ts:16</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/fe44c3d/src/engine/index.ts#L16">engine/index.ts:16</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -62,7 +62,7 @@
 <h4 class="tsd-returns-title">Returns <a href="NightmarketClient.html" class="tsd-signature-type tsd-kind-class">NightmarketClient</a></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/60e5432/src/engine/index.ts#L23">engine/index.ts:23</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/fe44c3d/src/engine/index.ts#L23">engine/index.ts:23</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member"><a id="AcceptOffer" class="tsd-anchor"></a>
@@ -98,13 +98,13 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/Action.html" class="tsd-signature-type tsd-kind-type-alias">Action</a><span class="tsd-signature-symbol">&gt;</span></h4><ul>
 <li>Night Market action object</li>
 </ul>
-<p>The function can be used to construct a versioned transaction like the following.</p>
+<p>Basic usage example:</p>
 <pre><code class="language-ts"><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">nmClient</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">NightmarketClient</span><span class="hl-1">(</span><span class="hl-2">&quot;YOUR RPC ENDPOINT&quot;</span><span class="hl-1">);</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">acceptAction</span><span class="hl-1"> = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">nmClient</span><span class="hl-1">.</span><span class="hl-0">AcceptOffer</span><span class="hl-1">(</span><span class="hl-6">mint</span><span class="hl-1">, </span><span class="hl-6">price</span><span class="hl-1">, </span><span class="hl-6">seller</span><span class="hl-1">, </span><span class="hl-6">buyer</span><span class="hl-1">);</span><br/><span class="hl-5">if</span><span class="hl-1"> (!!</span><span class="hl-6">acceptAction</span><span class="hl-1">.</span><span class="hl-6">err</span><span class="hl-1">) {</span><br/><span class="hl-1">   </span><span class="hl-5">throw</span><span class="hl-1"> </span><span class="hl-6">acceptAction</span><span class="hl-1">.</span><span class="hl-6">err</span><span class="hl-1">;</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> { </span><span class="hl-4">blockhash</span><span class="hl-1"> } = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">connection</span><span class="hl-1">.</span><span class="hl-0">getLatestBlockhash</span><span class="hl-1">();</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">messageV0</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">TransactionMessage</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-6">payerKey:</span><span class="hl-1"> </span><span class="hl-6">seller</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">recentBlockhash:</span><span class="hl-1"> </span><span class="hl-6">blockhash</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">instructions:</span><span class="hl-1"> </span><span class="hl-6">acceptAction</span><span class="hl-1">.</span><span class="hl-6">instructions</span><span class="hl-1">,</span><br/><span class="hl-1">}).</span><span class="hl-0">compileToV0Message</span><span class="hl-1">(</span><span class="hl-6">acceptAction</span><span class="hl-1">.</span><span class="hl-6">altAccounts</span><span class="hl-1">);</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">transactionV0</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">VersionedTransaction</span><span class="hl-1">(</span><span class="hl-6">messageV0</span><span class="hl-1">);</span>
 </code><button>Copy</button></pre>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/60e5432/src/engine/index.ts#L408">engine/index.ts:408</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/fe44c3d/src/engine/index.ts#L408">engine/index.ts:408</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="BuyListing" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>Buy<wbr/>Listing</span><a href="#BuyListing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -139,13 +139,13 @@ Currently only support Night Market listings.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/Action.html" class="tsd-signature-type tsd-kind-type-alias">Action</a><span class="tsd-signature-symbol">&gt;</span></h4><ul>
 <li>Night Market action object</li>
 </ul>
-<p>The function can be used to construct a versioned transaction like the following.</p>
+<p>Basic usage example:</p>
 <pre><code class="language-ts"><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">nmClient</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">NightmarketClient</span><span class="hl-1">(</span><span class="hl-2">&quot;YOUR RPC ENDPOINT&quot;</span><span class="hl-1">);</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">buyListingAction</span><span class="hl-1"> = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">nmClient</span><span class="hl-1">.</span><span class="hl-0">BuyListing</span><span class="hl-1">(</span><span class="hl-6">mint</span><span class="hl-1">, </span><span class="hl-6">price</span><span class="hl-1">, </span><span class="hl-6">seller</span><span class="hl-1">, </span><span class="hl-6">buyer</span><span class="hl-1">);</span><br/><span class="hl-5">if</span><span class="hl-1"> (!!</span><span class="hl-6">buyListingAction</span><span class="hl-1">.</span><span class="hl-6">err</span><span class="hl-1">) {</span><br/><span class="hl-1">   </span><span class="hl-5">throw</span><span class="hl-1"> </span><span class="hl-6">buyListingAction</span><span class="hl-1">.</span><span class="hl-6">err</span><span class="hl-1">;</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> { </span><span class="hl-4">blockhash</span><span class="hl-1"> } = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">connection</span><span class="hl-1">.</span><span class="hl-0">getLatestBlockhash</span><span class="hl-1">();</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">messageV0</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">TransactionMessage</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-6">payerKey:</span><span class="hl-1"> </span><span class="hl-6">buyer</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">recentBlockhash:</span><span class="hl-1"> </span><span class="hl-6">blockhash</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">instructions:</span><span class="hl-1"> </span><span class="hl-6">buyListingAction</span><span class="hl-1">.</span><span class="hl-6">instructions</span><span class="hl-1">,</span><br/><span class="hl-1">}).</span><span class="hl-0">compileToV0Message</span><span class="hl-1">(</span><span class="hl-6">buyListingAction</span><span class="hl-1">.</span><span class="hl-6">altAccounts</span><span class="hl-1">);</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">transactionV0</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">VersionedTransaction</span><span class="hl-1">(</span><span class="hl-6">messageV0</span><span class="hl-1">);</span>
 </code><button>Copy</button></pre>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/60e5432/src/engine/index.ts#L469">engine/index.ts:469</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/fe44c3d/src/engine/index.ts#L469">engine/index.ts:469</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="CloseListing" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>Close<wbr/>Listing</span><a href="#CloseListing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -169,13 +169,13 @@ Currently only support Night Market listings.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/Action.html" class="tsd-signature-type tsd-kind-type-alias">Action</a><span class="tsd-signature-symbol">&gt;</span></h4><ul>
 <li>Night Market action object</li>
 </ul>
-<p>The function can be used to construct a versioned transaction like the following.</p>
+<p>Basic usage example:</p>
 <pre><code class="language-ts"><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">nmClient</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">NightmarketClient</span><span class="hl-1">(</span><span class="hl-2">&quot;YOUR RPC ENDPOINT&quot;</span><span class="hl-1">);</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">closeListingAction</span><span class="hl-1"> = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">nmClient</span><span class="hl-1">.</span><span class="hl-0">CloseListing</span><span class="hl-1">(</span><span class="hl-6">mint</span><span class="hl-1">, </span><span class="hl-6">seller</span><span class="hl-1">);</span><br/><span class="hl-5">if</span><span class="hl-1"> (!!</span><span class="hl-6">closeListingAction</span><span class="hl-1">.</span><span class="hl-6">err</span><span class="hl-1">) {</span><br/><span class="hl-1">   </span><span class="hl-5">throw</span><span class="hl-1"> </span><span class="hl-6">closeListingAction</span><span class="hl-1">.</span><span class="hl-6">err</span><span class="hl-1">;</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> { </span><span class="hl-4">blockhash</span><span class="hl-1"> } = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">connection</span><span class="hl-1">.</span><span class="hl-0">getLatestBlockhash</span><span class="hl-1">();</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">messageV0</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">TransactionMessage</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-6">payerKey:</span><span class="hl-1"> </span><span class="hl-6">seller</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">recentBlockhash:</span><span class="hl-1"> </span><span class="hl-6">blockhash</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">instructions:</span><span class="hl-1"> </span><span class="hl-6">closeListingAction</span><span class="hl-1">.</span><span class="hl-6">instructions</span><span class="hl-1">,</span><br/><span class="hl-1">}).</span><span class="hl-0">compileToV0Message</span><span class="hl-1">(</span><span class="hl-6">closeListingAction</span><span class="hl-1">.</span><span class="hl-6">altAccounts</span><span class="hl-1">);</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">transactionV0</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">VersionedTransaction</span><span class="hl-1">(</span><span class="hl-6">messageV0</span><span class="hl-1">);</span>
 </code><button>Copy</button></pre>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/60e5432/src/engine/index.ts#L245">engine/index.ts:245</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/fe44c3d/src/engine/index.ts#L245">engine/index.ts:245</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="CloseOffer" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>Close<wbr/>Offer</span><a href="#CloseOffer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -209,13 +209,13 @@ Currently only support Night Market listings.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/Action.html" class="tsd-signature-type tsd-kind-type-alias">Action</a><span class="tsd-signature-symbol">&gt;</span></h4><ul>
 <li>Night Market action object</li>
 </ul>
-<p>The function can be used to construct a versioned transaction like the following.</p>
+<p>Basic usage example:</p>
 <pre><code class="language-ts"><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">nmClient</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">NightmarketClient</span><span class="hl-1">(</span><span class="hl-2">&quot;YOUR RPC ENDPOINT&quot;</span><span class="hl-1">);</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">closeOfferAction</span><span class="hl-1"> = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">nmClient</span><span class="hl-1">.</span><span class="hl-0">CloseOffer</span><span class="hl-1">(</span><span class="hl-6">mint</span><span class="hl-1">, </span><span class="hl-6">price</span><span class="hl-1">, </span><span class="hl-6">seller</span><span class="hl-1">, </span><span class="hl-6">buyer</span><span class="hl-1">);</span><br/><span class="hl-5">if</span><span class="hl-1"> (!!</span><span class="hl-6">closeOfferAction</span><span class="hl-1">.</span><span class="hl-6">err</span><span class="hl-1">) {</span><br/><span class="hl-1">   </span><span class="hl-5">throw</span><span class="hl-1"> </span><span class="hl-6">closeOfferAction</span><span class="hl-1">.</span><span class="hl-6">err</span><span class="hl-1">;</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> { </span><span class="hl-4">blockhash</span><span class="hl-1"> } = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">connection</span><span class="hl-1">.</span><span class="hl-0">getLatestBlockhash</span><span class="hl-1">();</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">messageV0</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">TransactionMessage</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-6">payerKey:</span><span class="hl-1"> </span><span class="hl-6">buyer</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">recentBlockhash:</span><span class="hl-1"> </span><span class="hl-6">blockhash</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">instructions:</span><span class="hl-1"> </span><span class="hl-6">closeOfferAction</span><span class="hl-1">.</span><span class="hl-6">instructions</span><span class="hl-1">,</span><br/><span class="hl-1">}).</span><span class="hl-0">compileToV0Message</span><span class="hl-1">();</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">transactionV0</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">VersionedTransaction</span><span class="hl-1">(</span><span class="hl-6">messageV0</span><span class="hl-1">);</span>
 </code><button>Copy</button></pre>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/60e5432/src/engine/index.ts#L353">engine/index.ts:353</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/fe44c3d/src/engine/index.ts#L353">engine/index.ts:353</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="CreateListing" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>Create<wbr/>Listing</span><a href="#CreateListing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -244,13 +244,13 @@ Currently only support Night Market listings.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/Action.html" class="tsd-signature-type tsd-kind-type-alias">Action</a><span class="tsd-signature-symbol">&gt;</span></h4><ul>
 <li>Night Market action object</li>
 </ul>
-<p>The function can be used to construct a versioned transaction like the following.</p>
+<p>Basic usage example:</p>
 <pre><code class="language-ts"><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">nmClient</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">NightmarketClient</span><span class="hl-1">(</span><span class="hl-2">&quot;YOUR RPC ENDPOINT&quot;</span><span class="hl-1">);</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">createListingAction</span><span class="hl-1"> = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">nmClient</span><span class="hl-1">.</span><span class="hl-0">CreateListing</span><span class="hl-1">(</span><span class="hl-6">mint</span><span class="hl-1">, </span><span class="hl-6">price</span><span class="hl-1">, </span><span class="hl-6">seller</span><span class="hl-1">);</span><br/><span class="hl-5">if</span><span class="hl-1"> (!!</span><span class="hl-6">createListingAction</span><span class="hl-1">.</span><span class="hl-6">err</span><span class="hl-1">) {</span><br/><span class="hl-1">   </span><span class="hl-5">throw</span><span class="hl-1"> </span><span class="hl-6">createListingAction</span><span class="hl-1">.</span><span class="hl-6">err</span><span class="hl-1">;</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> { </span><span class="hl-4">blockhash</span><span class="hl-1"> } = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">connection</span><span class="hl-1">.</span><span class="hl-0">getLatestBlockhash</span><span class="hl-1">();</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">messageV0</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">TransactionMessage</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-6">payerKey:</span><span class="hl-1"> </span><span class="hl-6">seller</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">recentBlockhash:</span><span class="hl-1"> </span><span class="hl-6">blockhash</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">instructions:</span><span class="hl-1"> </span><span class="hl-6">createListingAction</span><span class="hl-1">.</span><span class="hl-6">instructions</span><span class="hl-1">,</span><br/><span class="hl-1">}).</span><span class="hl-0">compileToV0Message</span><span class="hl-1">(</span><span class="hl-6">createListingAction</span><span class="hl-1">.</span><span class="hl-6">altAccounts</span><span class="hl-1">);</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">transactionV0</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">VersionedTransaction</span><span class="hl-1">(</span><span class="hl-6">messageV0</span><span class="hl-1">);</span>
 </code><button>Copy</button></pre>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/60e5432/src/engine/index.ts#L147">engine/index.ts:147</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/fe44c3d/src/engine/index.ts#L147">engine/index.ts:147</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="CreateOffer" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>Create<wbr/>Offer</span><a href="#CreateOffer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -284,13 +284,13 @@ Currently only support Night Market listings.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/Action.html" class="tsd-signature-type tsd-kind-type-alias">Action</a><span class="tsd-signature-symbol">&gt;</span></h4><ul>
 <li>Night Market action object</li>
 </ul>
-<p>The function can be used to construct a versioned transaction like the following.</p>
+<p>Basic usage example:</p>
 <pre><code class="language-ts"><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">nmClient</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">NightmarketClient</span><span class="hl-1">(</span><span class="hl-2">&quot;YOUR RPC ENDPOINT&quot;</span><span class="hl-1">);</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">createOfferAction</span><span class="hl-1"> = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">nmClient</span><span class="hl-1">.</span><span class="hl-0">CreateOffer</span><span class="hl-1">(</span><span class="hl-6">mint</span><span class="hl-1">, </span><span class="hl-6">price</span><span class="hl-1">, </span><span class="hl-6">seller</span><span class="hl-1">, </span><span class="hl-6">buyer</span><span class="hl-1">);</span><br/><span class="hl-5">if</span><span class="hl-1"> (!!</span><span class="hl-6">createOfferAction</span><span class="hl-1">.</span><span class="hl-6">err</span><span class="hl-1">) {</span><br/><span class="hl-1">   </span><span class="hl-5">throw</span><span class="hl-1"> </span><span class="hl-6">createOfferAction</span><span class="hl-1">.</span><span class="hl-6">err</span><span class="hl-1">;</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> { </span><span class="hl-4">blockhash</span><span class="hl-1"> } = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">connection</span><span class="hl-1">.</span><span class="hl-0">getLatestBlockhash</span><span class="hl-1">();</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">messageV0</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">TransactionMessage</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-6">payerKey:</span><span class="hl-1"> </span><span class="hl-6">buyer</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">recentBlockhash:</span><span class="hl-1"> </span><span class="hl-6">blockhash</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">instructions:</span><span class="hl-1"> </span><span class="hl-6">createOfferAction</span><span class="hl-1">.</span><span class="hl-6">instructions</span><span class="hl-1">,</span><br/><span class="hl-1">}).</span><span class="hl-0">compileToV0Message</span><span class="hl-1">();</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">transactionV0</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">VersionedTransaction</span><span class="hl-1">(</span><span class="hl-6">messageV0</span><span class="hl-1">);</span>
 </code><button>Copy</button></pre>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/60e5432/src/engine/index.ts#L298">engine/index.ts:298</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/fe44c3d/src/engine/index.ts#L298">engine/index.ts:298</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="GetListing" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>Get<wbr/>Listing</span><a href="#GetListing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -309,13 +309,13 @@ Currently only support Night Market listings.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="../types/Listing.html" class="tsd-signature-type tsd-kind-type-alias">Listing</a><span class="tsd-signature-symbol">&gt;</span></h4><ul>
 <li>NFT listing details</li>
 </ul>
-<p>This function can be used to fetch the listing information like the following.</p>
+<p>Basic usage example:</p>
 <pre><code class="language-ts"><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">nmClient</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">NightmarketClient</span><span class="hl-1">(</span><span class="hl-2">&quot;YOUR RPC ENDPOINT&quot;</span><span class="hl-1">);</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">listing</span><span class="hl-1"> = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">nmClient</span><span class="hl-1">.</span><span class="hl-0">GetListing</span><span class="hl-1">(</span><span class="hl-6">mint</span><span class="hl-1">);</span>
 </code><button>Copy</button></pre>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/60e5432/src/engine/index.ts#L74">engine/index.ts:74</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/fe44c3d/src/engine/index.ts#L74">engine/index.ts:74</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="GetOffers" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>Get<wbr/>Offers</span><a href="#GetOffers" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -334,63 +334,63 @@ Currently only support Night Market listings.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/Offer.html" class="tsd-signature-type tsd-kind-type-alias">Offer</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><ul>
 <li>A list of NFT offers</li>
 </ul>
-<p>This function can be used to fetch the offers information like the following.</p>
+<p>Basic usage example:</p>
 <pre><code class="language-ts"><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">nmClient</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">NightmarketClient</span><span class="hl-1">(</span><span class="hl-2">&quot;YOUR RPC ENDPOINT&quot;</span><span class="hl-1">);</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">offers</span><span class="hl-1"> = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">nmClient</span><span class="hl-1">.</span><span class="hl-0">GetOffers</span><span class="hl-1">(</span><span class="hl-6">mint</span><span class="hl-1">);</span>
 </code><button>Copy</button></pre>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/60e5432/src/engine/index.ts#L102">engine/index.ts:102</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/fe44c3d/src/engine/index.ts#L102">engine/index.ts:102</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="IsLocalListing" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>Is<wbr/>Local<wbr/>Listing</span><a href="#IsLocalListing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="tsd-signature tsd-anchor-link" id="IsLocalListing.IsLocalListing-1"><span class="tsd-kind-call-signature">Is<wbr/>Local<wbr/>Listing</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">listing</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#IsLocalListing.IsLocalListing-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Check if the current listing is on the night market</p>
+<div class="tsd-comment tsd-typography"><p>Check if the listing is local to Night Market</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
 <h5><span class="tsd-kind-parameter">listing</span>: <a href="../types/Listing.html" class="tsd-signature-type tsd-kind-type-alias">Listing</a></h5>
-<div class="tsd-comment tsd-typography"><p>Listing information</p>
+<div class="tsd-comment tsd-typography"><p>Listing details retrieved with <code>GetListing</code></p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><ul>
-<li>A boolean value that is true if the listing is on the night market</li>
+<li>Whether the listing is local to Night Market</li>
 </ul>
-<p>This function can be used like the following.</p>
+<p>Basic usage example:</p>
 <pre><code class="language-ts"><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">nmClient</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">NightmarketClient</span><span class="hl-1">(</span><span class="hl-2">&quot;YOUR RPC ENDPOINT&quot;</span><span class="hl-1">);</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">isNMListing</span><span class="hl-1"> = </span><span class="hl-6">nmClient</span><span class="hl-1">.</span><span class="hl-0">IsLocalListing</span><span class="hl-1">(</span><span class="hl-6">listing</span><span class="hl-1">);</span>
 </code><button>Copy</button></pre>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/60e5432/src/engine/index.ts#L40">engine/index.ts:40</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/fe44c3d/src/engine/index.ts#L40">engine/index.ts:40</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="IsLocalOffer" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>Is<wbr/>Local<wbr/>Offer</span><a href="#IsLocalOffer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="tsd-signature tsd-anchor-link" id="IsLocalOffer.IsLocalOffer-1"><span class="tsd-kind-call-signature">Is<wbr/>Local<wbr/>Offer</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">offer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#IsLocalOffer.IsLocalOffer-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Check if the current offer is from the night market</p>
+<div class="tsd-comment tsd-typography"><p>Check if the offer is local to Night Market</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
 <h5><span class="tsd-kind-parameter">offer</span>: <a href="../types/Offer.html" class="tsd-signature-type tsd-kind-type-alias">Offer</a></h5>
-<div class="tsd-comment tsd-typography"><p>Offer information</p>
+<div class="tsd-comment tsd-typography"><p>Offer details retrieved with <code>GetOffers</code></p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><ul>
-<li>A boolean value that is true if the offer is from the night market</li>
+<li>Whether the offer is local to Night Market</li>
 </ul>
-<p>This function can be used like the following.</p>
+<p>Basic usage example:</p>
 <pre><code class="language-ts"><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">nmClient</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">NightmarketClient</span><span class="hl-1">(</span><span class="hl-2">&quot;YOUR RPC ENDPOINT&quot;</span><span class="hl-1">);</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">isNMOffer</span><span class="hl-1"> = </span><span class="hl-6">nmClient</span><span class="hl-1">.</span><span class="hl-0">IsLocalOffer</span><span class="hl-1">(</span><span class="hl-6">offer</span><span class="hl-1">);</span>
 </code><button>Copy</button></pre>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/60e5432/src/engine/index.ts#L57">engine/index.ts:57</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/fe44c3d/src/engine/index.ts#L57">engine/index.ts:57</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="UpdateListing" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>Update<wbr/>Listing</span><a href="#UpdateListing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -419,13 +419,13 @@ Currently only support Night Market listings.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/Action.html" class="tsd-signature-type tsd-kind-type-alias">Action</a><span class="tsd-signature-symbol">&gt;</span></h4><ul>
 <li>Night Market action object</li>
 </ul>
-<p>The function can be used to construct a versioned transaction like the following.</p>
+<p>Basic usage example:</p>
 <pre><code class="language-ts"><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">nmClient</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">NightmarketClient</span><span class="hl-1">(</span><span class="hl-2">&quot;YOUR RPC ENDPOINT&quot;</span><span class="hl-1">);</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">updateListingAction</span><span class="hl-1"> = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">nmClient</span><span class="hl-1">.</span><span class="hl-0">UpdateListing</span><span class="hl-1">(</span><span class="hl-6">mint</span><span class="hl-1">, </span><span class="hl-6">price</span><span class="hl-1">, </span><span class="hl-6">seller</span><span class="hl-1">);</span><br/><span class="hl-5">if</span><span class="hl-1"> (!!</span><span class="hl-6">updateListingAction</span><span class="hl-1">.</span><span class="hl-6">err</span><span class="hl-1">) {</span><br/><span class="hl-1">   </span><span class="hl-5">throw</span><span class="hl-1"> </span><span class="hl-6">updateListingAction</span><span class="hl-1">.</span><span class="hl-6">err</span><span class="hl-1">;</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> { </span><span class="hl-4">blockhash</span><span class="hl-1"> } = </span><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">connection</span><span class="hl-1">.</span><span class="hl-0">getLatestBlockhash</span><span class="hl-1">();</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">messageV0</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">TransactionMessage</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-6">payerKey:</span><span class="hl-1"> </span><span class="hl-6">seller</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">recentBlockhash:</span><span class="hl-1"> </span><span class="hl-6">blockhash</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">instructions:</span><span class="hl-1"> </span><span class="hl-6">updateListingAction</span><span class="hl-1">.</span><span class="hl-6">instructions</span><span class="hl-1">,</span><br/><span class="hl-1">}).</span><span class="hl-0">compileToV0Message</span><span class="hl-1">();</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">transactionV0</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">VersionedTransaction</span><span class="hl-1">(</span><span class="hl-6">messageV0</span><span class="hl-1">);</span>
 </code><button>Copy</button></pre>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/60e5432/src/engine/index.ts#L200">engine/index.ts:200</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/motleylabs/mtly-nightmarket/blob/fe44c3d/src/engine/index.ts#L200">engine/index.ts:200</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
