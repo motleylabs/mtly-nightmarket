@@ -24,8 +24,8 @@ export const buyListing = async ({
   // get the listing information for the mint
   const listing: Listing = await nightmarketClient.GetListing(mint);
 
-  if (!listing) {
-    throw 'NFT is not listed';
+  if (!listing || !nightmarketClient.IsLocalListing(listing)) {
+    throw 'NFT is not listed on the night market';
   }
 
   // get the transaction information for buying the NFT
@@ -45,7 +45,7 @@ export const buyListing = async ({
     payerKey: wallet.publicKey,
     recentBlockhash: blockhash,
     instructions: txRes.instructions,
-  }).compileToV0Message(txRes.ltAccounts);
+  }).compileToV0Message(txRes.altAccounts);
   const transactionV0 = new VersionedTransaction(messageV0);
 
   // send and confirm the versioned transaction

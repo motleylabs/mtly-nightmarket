@@ -22,10 +22,13 @@ export const acceptOffer = async ({
   const nightmarketClient = new NightmarketClient('YOUR RPC ENDPOINT');
 
   // get the offers for the mint that are sorted by the offer price
-  const offers = nightmarketClient.GetOffers(mint).sort((a: Offer, b: Offer) => b.price - a.price);
+  const offers = nightmarketClient
+    .GetOffers(mint)
+    .filter((offer: Offer) => nightmarketClient.IsLocalOffer(offer))
+    .sort((a: Offer, b: Offer) => b.price - a.price);
 
   if (offers.length === 0) {
-    throw 'no offers';
+    throw 'no offers from the night market';
   }
 
   // get the transaction information for accepting the highest offer
@@ -46,7 +49,7 @@ export const acceptOffer = async ({
     payerKey: wallet.publicKey,
     recentBlockhash: blockhash,
     instructions: txRes.instructions,
-  }).compileToV0Message(txRes.ltAccounts);
+  }).compileToV0Message(txRes.altAccounts);
   const transactionV0 = new VersionedTransaction(messageV0);
 
   // send and confirm the versioned transaction

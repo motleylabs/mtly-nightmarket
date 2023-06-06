@@ -40,7 +40,7 @@ export const createListing = async ({
     payerKey: wallet.publicKey,
     recentBlockhash: blockhash,
     instructions: txRes.instructions,
-  }).compileToV0Message(txRes.ltAccounts);
+  }).compileToV0Message(txRes.altAccounts);
   const transactionV0 = new VersionedTransaction(messageV0);
 
   // send and confirm the versioned transaction
