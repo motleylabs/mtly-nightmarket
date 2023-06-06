@@ -28,11 +28,11 @@ export class NightmarketClient {
   }
 
   /**
-   * Check if the current listing is on the night market
-   * @param listing - Listing information
-   * @returns - A boolean value that is true if the listing is on the night market
+   * Check if the listing is local to Night Market
+   * @param listing - Listing details retrieved with `GetListing`
+   * @returns - Whether the listing is local to Night Market
    *
-   * This function can be used like the following.
+   * Basic usage example:
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
    * const isNMListing = nmClient.IsLocalListing(listing);
@@ -45,11 +45,11 @@ export class NightmarketClient {
   }
 
   /**
-   * Check if the current offer is from the night market
-   * @param offer - Offer information
-   * @returns - A boolean value that is true if the offer is from the night market
+   * Check if the offer is local to Night Market
+   * @param offer - Offer details retrieved with `GetOffers`
+   * @returns - Whether the offer is local to Night Market
    *
-   * This function can be used like the following.
+   * Basic usage example:
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
    * const isNMOffer = nmClient.IsLocalOffer(offer);
@@ -66,7 +66,7 @@ export class NightmarketClient {
    * @param mint - Public key of the NFT
    * @returns {Listing | null} - NFT listing details
    *
-   * This function can be used to fetch the listing information like the following.
+   * Basic usage example:
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
    * const listing = await nmClient.GetListing(mint);
@@ -94,7 +94,7 @@ export class NightmarketClient {
    * @param mint - Public key of the NFT
    * @returns {Offer[]} - A list of NFT offers
    *
-   * This function can be used to fetch the offers information like the following.
+   * Basic usage example:
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
    * const offers = await nmClient.GetOffers(mint);
@@ -125,7 +125,7 @@ export class NightmarketClient {
    * @param seller - Public key for the seller
    * @returns {Action} - Night Market action object
    *
-   * The function can be used to construct a versioned transaction like the following.
+   * Basic usage example:
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
    *
@@ -178,7 +178,7 @@ export class NightmarketClient {
    * @param seller - Public key for the seller
    * @returns {Action} - Night Market action object
    *
-   * The function can be used to construct a versioned transaction like the following.
+   * Basic usage example:
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
    *
@@ -224,7 +224,7 @@ export class NightmarketClient {
    * @param seller - Public key for the seller
    * @returns {Action} - Night Market action object
    *
-   * The function can be used to construct a versioned transaction like the following.
+   * Basic usage example:
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
    *
@@ -276,7 +276,7 @@ export class NightmarketClient {
    * @param buyer - Public key for the buyer
    * @returns {Action} - Night Market action object
    *
-   * The function can be used to construct a versioned transaction like the following.
+   * Basic usage example:
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
    *
@@ -331,7 +331,7 @@ export class NightmarketClient {
    * @param buyer - Public key for the buyer
    * @returns {Action} - Night Market action object
    *
-   * The function can be used to construct a versioned transaction like the following.
+   * Basic usage example:
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
    *
@@ -386,7 +386,7 @@ export class NightmarketClient {
    * @param buyer - Public key for the buyer
    * @returns {Action} - Night Market action object
    *
-   * The function can be used to construct a versioned transaction like the following.
+   * Basic usage example:
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
    *
@@ -447,7 +447,7 @@ export class NightmarketClient {
    * @param buyer - Public key for the buyer
    * @returns {Action} - Night Market action object
    *
-   * The function can be used to construct a versioned transaction like the following.
+   * Basic usage example:
    * ```ts
    * const nmClient = new NightmarketClient("YOUR RPC ENDPOINT");
    *
